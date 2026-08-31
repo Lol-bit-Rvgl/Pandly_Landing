@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Grid, Layout, Smartphone, Type, Heart, MessageCircle, Share2, Sparkles, Flame, Eye } from "lucide-react";
+import { Grid, Film, Smartphone, BookOpen, Heart, MessageCircle, Share2, Sparkles, Flame, Eye } from "lucide-react";
 import { useLiquidEngine } from "../hooks/useLiquidEngine";
 
 export type PostFormat = "grid" | "cover" | "vertical" | "text";
@@ -17,41 +17,41 @@ interface FormatInfo {
 const FORMATS: FormatInfo[] = [
   {
     id: "grid",
-    title: "Grid Collage",
-    subtitle: "Mosaico Dinámico 2.5D",
+    title: "Galerías y Fanart",
+    subtitle: "Mosaicos de la Comunidad",
     icon: Grid,
-    description: "Distribución fluida con curvatura superelíptica adaptativa y refracción por celda.",
+    description: "Comparte ilustraciones, cosplays y collages creados por la comunidad con estética 2.5D interactiva.",
   },
   {
     id: "cover",
-    title: "Cinematic Cover",
-    subtitle: "Tarjeta de Impacto",
-    icon: Layout,
-    description: "Capa de vidrio polarizada con profundidad focal $C_{glass}$ y tipografía en relieve.",
+    title: "Estrenos de Cine",
+    subtitle: "Eventos de Sala & Watch Parties",
+    icon: Film,
+    description: "Organiza maratones de anime, series y noches de cine con audio sincronizado y reacciones en vivo.",
   },
   {
     id: "vertical",
-    title: "Vertical Story",
-    subtitle: "Formato 9:16 Inmersivo",
+    title: "Clips de Roleplay",
+    subtitle: "Momentos en Formato 9:16",
     icon: Smartphone,
-    description: "Aspect ratio móvil con pills de reacción flotantes y halo de dispersión cromática.",
+    description: "Captura las escenas más épicas, batallas y giros inesperados de tus sesiones de rol con amigos.",
   },
   {
     id: "text",
-    title: "Sticker Typography",
-    subtitle: "Expresión Conversacional",
-    icon: Type,
-    description: "Tipografía viva con sombreado de sticker, física jelly y shaders de textura.",
+    title: "Lore e Historias",
+    subtitle: "Debates y Creación de Mundos",
+    icon: BookOpen,
+    description: "Publica el lore de tus personajes, teorías de tus universos favoritos y debates rápidos con stickers vivos.",
   },
 ];
 
 export function FeedShowcase() {
   const [selectedFormat, setSelectedFormat] = useState<PostFormat>("grid");
   const [likes, setLikes] = useState<Record<string, number>>({
-    grid: 142,
-    cover: 389,
-    vertical: 624,
-    text: 89,
+    grid: 342,
+    cover: 819,
+    vertical: 1204,
+    text: 215,
   });
   const [hasLiked, setHasLiked] = useState<Record<string, boolean>>({});
   
@@ -138,7 +138,7 @@ export function FeedShowcase() {
       }}
     >
       {/* Section Header */}
-      <div style={{ textAlign: "center", maxWidth: 720, marginBottom: 48 }}>
+      <div style={{ textAlign: "center", maxWidth: 760, marginBottom: 44 }}>
         <div
           style={{
             display: "inline-flex",
@@ -155,7 +155,7 @@ export function FeedShowcase() {
           }}
         >
           <Sparkles size={14} />
-          <span>Interactive Product Feed</span>
+          <span>Formatos de Expresión & Comunidad</span>
         </div>
 
         <h2
@@ -180,7 +180,7 @@ export function FeedShowcase() {
             lineHeight: 1.6,
           }}
         >
-          Cada publicación vive dentro de una lente de refracción 2.5D con física de masa y rigidez calibradas.
+          Desde galerías de arte y clips de rol hasta salas de cine en vivo, cada post en Pandly es una ventana interactiva.
         </p>
       </div>
 
@@ -195,7 +195,7 @@ export function FeedShowcase() {
           background: "rgba(23, 25, 29, 0.8)",
           backdropFilter: "blur(20px)",
           border: "1px solid rgba(255, 255, 255, 0.1)",
-          marginBottom: 44,
+          marginBottom: 40,
           flexWrap: "wrap",
           justifyContent: "center",
         }}
@@ -255,7 +255,7 @@ export function FeedShowcase() {
             position: "relative",
             width: "100%",
             borderRadius: 28,
-            background: "rgba(18, 20, 24, 0.85)",
+            background: "rgba(18, 20, 24, 0.88)",
             backdropFilter: "blur(24px)",
             WebkitBackdropFilter: "blur(24px)",
             border: "1px solid rgba(255, 255, 255, 0.12)",
@@ -325,7 +325,7 @@ export function FeedShowcase() {
                       color: "#FF6A4D",
                     }}
                   >
-                    PRO
+                    CREADORA
                   </span>
                 </div>
                 <div
@@ -335,7 +335,7 @@ export function FeedShowcase() {
                     color: "rgba(255, 255, 255, 0.45)",
                   }}
                 >
-                  hace 12m en #LivingDesign
+                  hace 12m en #RoleplayUniverse
                 </div>
               </div>
             </div>
@@ -346,88 +346,109 @@ export function FeedShowcase() {
                 fontSize: 11,
                 padding: "6px 12px",
                 borderRadius: 14,
-                background: "rgba(255, 255, 255, 0.06)",
-                border: "1px solid rgba(255, 255, 255, 0.08)",
+                background: "rgba(255, 106, 77, 0.15)",
+                border: "1px solid rgba(255, 106, 77, 0.3)",
                 color: "#FF6A4D",
               }}
             >
-              F = {(cardTilt.fresnelGlow).toFixed(3)}
+              EN VIVO
             </div>
           </div>
 
           {/* Dynamic Post Format Body */}
           {selectedFormat === "grid" && (
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 18 }}>
-              <div style={{ borderRadius: 16, overflow: "hidden", height: 160, position: "relative" }}>
-                <img
-                  src="/assets/Post_Mockups/gato_estrella.jpg"
-                  alt="Gato Estrella"
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
+            <div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
+                <div style={{ borderRadius: 16, overflow: "hidden", height: 160, position: "relative" }}>
+                  <img
+                    src="/assets/Post_Mockups/gato_estrella.jpg"
+                    alt="Gato Estrella"
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                </div>
+                <div style={{ borderRadius: 16, overflow: "hidden", height: 160, position: "relative" }}>
+                  <img
+                    src="/assets/Post_Mockups/charlie_profile.jpg"
+                    alt="Charlie"
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                </div>
+                <div style={{ gridColumn: "span 2", borderRadius: 16, overflow: "hidden", height: 140, position: "relative" }}>
+                  <img
+                    src="/assets/Post_Mockups/lolbit_profile.jpg"
+                    alt="Lolbit"
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                </div>
               </div>
-              <div style={{ borderRadius: 16, overflow: "hidden", height: 160, position: "relative" }}>
-                <img
-                  src="/assets/Post_Mockups/charlie_profile.jpg"
-                  alt="Charlie"
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
-              </div>
-              <div style={{ gridColumn: "span 2", borderRadius: 16, overflow: "hidden", height: 140, position: "relative" }}>
-                <img
-                  src="/assets/Post_Mockups/lolbit_profile.jpg"
-                  alt="Lolbit"
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
+              <div style={{ fontFamily: "var(--font-lilita-one)", fontSize: 13, color: "rgba(255,255,255,0.7)", marginBottom: 8 }}>
+                Nuevas ilustraciones de la sesión de rol de anoche con @Charlie y el escuadrón estelar ✨
               </div>
             </div>
           )}
 
           {selectedFormat === "cover" && (
-            <div style={{ borderRadius: 20, overflow: "hidden", height: 280, position: "relative", marginBottom: 18 }}>
-              <img
-                src="/assets/Post_Mockups/miss_head.jpg"
-                alt="Cinematic Cover"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  background: "linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.85) 100%)",
-                  display: "flex",
-                  alignItems: "flex-end",
-                  padding: 20,
-                }}
-              >
-                <div style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 18, color: "#FFF" }}>
-                  Living Universe • Edición Limitada
+            <div>
+              <div style={{ borderRadius: 20, overflow: "hidden", height: 280, position: "relative", marginBottom: 14 }}>
+                <img
+                  src="/assets/Post_Mockups/miss_head.jpg"
+                  alt="Cinematic Cover"
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: "linear-gradient(180deg, transparent 35%, rgba(0,0,0,0.9) 100%)",
+                    display: "flex",
+                    alignItems: "flex-end",
+                    padding: 20,
+                  }}
+                >
+                  <div>
+                    <span style={{ fontSize: 11, padding: "3px 8px", borderRadius: 6, background: "#E6533C", color: "#FFF", fontFamily: "var(--font-dyna-puff)" }}>
+                      SALA #4 • CINE NOCTURNO
+                    </span>
+                    <div style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 20, color: "#FFF", marginTop: 6 }}>
+                      Maratón Anime & Películas
+                    </div>
+                  </div>
                 </div>
+              </div>
+              <div style={{ fontFamily: "var(--font-lilita-one)", fontSize: 13, color: "rgba(255,255,255,0.7)", marginBottom: 8 }}>
+                ¡Sala abierta para todos los miembros del círculo! Sincronización perfecta y palomitas virtuales listas 🍿
               </div>
             </div>
           )}
 
           {selectedFormat === "vertical" && (
-            <div style={{ borderRadius: 20, overflow: "hidden", height: 340, position: "relative", marginBottom: 18 }}>
-              <img
-                src="/assets/Post_Mockups/rabbid_coding_profile.jpg"
-                alt="Vertical Story"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  top: 14,
-                  right: 14,
-                  padding: "4px 10px",
-                  borderRadius: 12,
-                  background: "rgba(0,0,0,0.6)",
-                  backdropFilter: "blur(10px)",
-                  fontFamily: "var(--font-dyna-puff)",
-                  fontSize: 11,
-                  color: "#FF6A4D",
-                }}
-              >
-                9:16 LIVE
+            <div>
+              <div style={{ borderRadius: 20, overflow: "hidden", height: 340, position: "relative", marginBottom: 14 }}>
+                <img
+                  src="/assets/Post_Mockups/rabbid_coding_profile.jpg"
+                  alt="Vertical Story"
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 14,
+                    right: 14,
+                    padding: "6px 12px",
+                    borderRadius: 12,
+                    background: "rgba(0,0,0,0.75)",
+                    backdropFilter: "blur(12px)",
+                    fontFamily: "var(--font-dyna-puff)",
+                    fontSize: 11,
+                    color: "#FF6A4D",
+                    border: "1px solid rgba(255,106,77,0.4)",
+                  }}
+                >
+                  CLIP DESTACADO 🎮
+                </div>
+              </div>
+              <div style={{ fontFamily: "var(--font-lilita-one)", fontSize: 13, color: "rgba(255,255,255,0.7)", marginBottom: 8 }}>
+                "El momento exacto donde el plan maestro de rol se salió totalmente de control..." 😂
               </div>
             </div>
           )}
@@ -445,26 +466,26 @@ export function FeedShowcase() {
               <p
                 style={{
                   fontFamily: "var(--font-dyna-puff)",
-                  fontSize: 20,
-                  lineHeight: 1.4,
-                  margin: "0 0 12px 0",
+                  fontSize: 19,
+                  lineHeight: 1.45,
+                  margin: "0 0 14px 0",
                   color: "#FFFFFF",
                 }}
               >
-                "Los stickers en Pandly no son imágenes estáticas. Son partículas vivas que rebotan con la inercia de tus dedos."
+                "En Pandly, cada vez que lanzas una reacción de fuego en una sala de cine, la pantalla de todos tus amigos vibra con partículas en tiempo real. La distancia desaparece."
               </p>
               <div
                 style={{
                   display: "flex",
                   gap: 8,
                   fontFamily: "var(--font-lilita-one)",
-                  fontSize: 14,
+                  fontSize: 13,
                   color: "#FF6A4D",
                 }}
               >
-                <span>#StickerPhysics</span>
-                <span>#LiquidGlass</span>
-                <span>#AwwwardsDesign</span>
+                <span>#WatchParties</span>
+                <span>#RoleplayVibes</span>
+                <span>#ComunidadPandly</span>
               </div>
             </div>
           )}
@@ -518,21 +539,27 @@ export function FeedShowcase() {
                 }}
               >
                 <MessageCircle size={18} strokeWidth={2} />
-                <span>34</span>
+                <span>68 comentarios</span>
               </div>
             </div>
 
             {/* Share */}
             <button
               style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
                 background: "transparent",
                 border: "none",
                 color: "#A9B0BC",
+                fontFamily: "var(--font-dyna-puff)",
+                fontSize: 12,
                 cursor: "pointer",
                 padding: "6px",
               }}
             >
-              <Share2 size={18} />
+              <Share2 size={16} />
+              <span>Compartir</span>
             </button>
           </div>
         </div>

@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { Sparkles, ArrowRight, Play, Compass, Flame } from "lucide-react";
+import { Sparkles, ArrowRight, Play, Compass, Flame, Users, Film, Radio } from "lucide-react";
 import { useLiquidEngine, solveSpring, SPRING_PRESETS } from "../hooks/useLiquidEngine";
 
 export function HeroSpace() {
@@ -33,8 +33,6 @@ export function HeroSpace() {
 
   const pointerRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0, vx: 0, vy: 0, inside: false });
   const lensInertiaRef = useRef({ x: 0, y: 0, vx: 0, vy: 0 });
-  const [activeTab, setActiveTab] = useState<"space" | "stickers">("space");
-  const [isCtaPressed, setIsCtaPressed] = useState(false);
   const [ctaScale, setCtaScale] = useState(1);
   const ctaSpringRef = useRef({ position: 1, velocity: 0, target: 1 });
 
@@ -64,7 +62,7 @@ export function HeroSpace() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const count = 48;
+    const count = 52;
     const colors = ["#FF6A4D", "#E6533C", "#FFFFFF", "#F08A5B", "#A9B0BC"];
     const pts = [];
 
@@ -293,12 +291,9 @@ export function HeroSpace() {
   };
 
   const handleCtaClick = () => {
-    setIsCtaPressed(true);
     ctaSpringRef.current.position = 0.88;
     ctaSpringRef.current.velocity = -3.2;
     ctaSpringRef.current.target = 1.0;
-
-    setTimeout(() => setIsCtaPressed(false), 95);
 
     const feedEl = document.getElementById("feed");
     if (feedEl) {
@@ -317,7 +312,7 @@ export function HeroSpace() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        padding: "100px 20px 80px 20px",
+        padding: "110px 20px 80px 20px",
         overflow: "hidden",
         zIndex: 10,
       }}
@@ -355,7 +350,7 @@ export function HeroSpace() {
           }}
         />
 
-        {/* Floating Living Stickers in Canvas Space */}
+        {/* Floating Living Presence Badge */}
         <div
           style={{
             position: "absolute",
@@ -364,15 +359,16 @@ export function HeroSpace() {
             display: "flex",
             alignItems: "center",
             gap: 8,
-            padding: "6px 14px",
+            padding: "8px 16px",
             borderRadius: 999,
-            background: "rgba(0, 0, 0, 0.5)",
-            backdropFilter: "blur(16px)",
-            border: "1px solid rgba(255, 255, 255, 0.1)",
+            background: "rgba(18, 20, 24, 0.75)",
+            backdropFilter: "blur(20px)",
+            border: "1px solid rgba(255, 255, 255, 0.12)",
             fontSize: 12,
             fontFamily: "var(--font-dyna-puff)",
-            color: "#A9B0BC",
+            color: "#FFF",
             pointerEvents: "none",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
           }}
         >
           <span
@@ -380,12 +376,12 @@ export function HeroSpace() {
               width: 8,
               height: 8,
               borderRadius: "50%",
-              backgroundColor: "#FF6A4D",
-              boxShadow: "0 0 10px #FF6A4D",
+              backgroundColor: "#06D6A0",
+              boxShadow: "0 0 12px #06D6A0",
               animation: "pulse 2s infinite ease-in-out",
             }}
           />
-          Pandly Space • C++ WASM 120 FPS
+          <span>2,480 en Watch Parties & Rol en Vivo</span>
         </div>
 
         {/* Floating Panda Head Sticker */}
@@ -397,12 +393,12 @@ export function HeroSpace() {
             display: "flex",
             alignItems: "center",
             gap: 12,
-            padding: "8px 16px",
+            padding: "10px 18px",
             borderRadius: 24,
-            background: "rgba(23, 25, 29, 0.65)",
-            backdropFilter: "blur(20px)",
-            border: "1px solid rgba(230, 83, 60, 0.3)",
-            boxShadow: "0 12px 30px rgba(0,0,0,0.5)",
+            background: "rgba(23, 25, 29, 0.75)",
+            backdropFilter: "blur(24px)",
+            border: "1px solid rgba(230, 83, 60, 0.35)",
+            boxShadow: "0 14px 32px rgba(0,0,0,0.6)",
             pointerEvents: "none",
           }}
         >
@@ -417,35 +413,35 @@ export function HeroSpace() {
             }}
           />
           <div>
-            <div style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 13, color: "#FFF" }}>
-              Living Panda
+            <div style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 14, color: "#FFF" }}>
+              Avatar 2.5D Reactivo
             </div>
-            <div style={{ fontFamily: "var(--font-lilita-one)", fontSize: 11, color: "rgba(255,255,255,0.5)" }}>
-              Spring ratio ζ=0.76
+            <div style={{ fontFamily: "var(--font-lilita-one)", fontSize: 11, color: "#FF6A4D" }}>
+              Audio Espacial • 523 Living Stickers
             </div>
           </div>
         </div>
       </div>
 
-      {/* Hero Headline & Content */}
+      {/* Hero Headline & User-Centered Content */}
       <div
         style={{
           position: "relative",
           zIndex: 20,
           textAlign: "center",
-          maxWidth: 820,
+          maxWidth: 860,
           marginTop: "auto",
           marginBottom: "auto",
           pointerEvents: "auto",
         }}
       >
-        {/* Brand Tag / Badge */}
+        {/* User-Centric Badge */}
         <div
           style={{
             display: "inline-flex",
             alignItems: "center",
             gap: 8,
-            padding: "6px 18px",
+            padding: "8px 20px",
             borderRadius: 999,
             background: "rgba(230, 83, 60, 0.15)",
             border: "1px solid rgba(255, 106, 77, 0.35)",
@@ -454,32 +450,32 @@ export function HeroSpace() {
             fontSize: 13,
             fontWeight: 600,
             marginBottom: 20,
-            boxShadow: "0 0 20px rgba(230, 83, 60, 0.2)",
+            boxShadow: "0 0 24px rgba(230, 83, 60, 0.25)",
           }}
         >
           <Flame size={16} />
-          <span>Next-Gen Liquid Social OS</span>
+          <span>La nueva dimensión de interacción social</span>
         </div>
 
         {/* Sticker-Stroke Display Headline */}
         <h1
           style={{
             fontFamily: "var(--font-dyna-puff), cursive",
-            fontSize: "clamp(2.5rem, 6.8vw, 5.2rem)",
+            fontSize: "clamp(2.3rem, 6.2vw, 4.8rem)",
             fontWeight: 700,
-            lineHeight: 1.05,
-            margin: "0 0 18px 0",
+            lineHeight: 1.1,
+            margin: "0 0 20px 0",
             color: "#FFFFFF",
             WebkitTextStroke: "1.5px rgba(255, 255, 255, 0.85)",
             textShadow: `
               0 0 35px rgba(230, 83, 60, 0.55),
               0 0 70px rgba(255, 106, 77, 0.3),
-              0 4px 12px rgba(0, 0, 0, 0.8)
+              0 4px 14px rgba(0, 0, 0, 0.9)
             `,
             letterSpacing: "-0.02em",
           }}
         >
-          Where Living Stickers <br />
+          Tu espacio para rolear, conectar <br />
           <span
             style={{
               background: "linear-gradient(135deg, #FFFFFF 0%, #FF6A4D 50%, #E6533C 100%)",
@@ -487,27 +483,26 @@ export function HeroSpace() {
               WebkitTextFillColor: "transparent",
             }}
           >
-            Come Alive
+            y vivir la pantalla juntos.
           </span>
         </h1>
 
-        {/* Subtitle */}
+        {/* User-Focused Subtitle */}
         <p
           style={{
             fontFamily: "var(--font-lilita-one), sans-serif",
             fontSize: "clamp(1.05rem, 2.2vw, 1.35rem)",
             lineHeight: 1.6,
             color: "#A9B0BC",
-            maxWidth: 620,
+            maxWidth: 680,
             margin: "0 auto 36px auto",
             textShadow: "0 2px 8px rgba(0,0,0,0.8)",
           }}
         >
-          Refracción 2.5D en tiempo real, física de resortes no amortiguados y
-          micro-interacciones hápticas renderizadas con aceleración C++/WASM.
+          Salas de cine sincronizadas, chats de voz interactivos y círculos donde tu identidad cobra vida.
         </p>
 
-        {/* Interactive CTA Buttons */}
+        {/* Action Buttons */}
         <div
           style={{
             display: "flex",
@@ -517,7 +512,7 @@ export function HeroSpace() {
             flexWrap: "wrap",
           }}
         >
-          {/* Main Action Button */}
+          {/* Main CTA */}
           <button
             onClick={handleCtaClick}
             style={{
@@ -551,15 +546,15 @@ export function HeroSpace() {
             }}
           >
             <Sparkles size={20} />
-            <span>Explorar Formatos de Post</span>
+            <span>Unirse a la Beta • Explorar Pandly</span>
             <ArrowRight size={18} />
           </button>
 
-          {/* Secondary Glass Action */}
+          {/* Secondary Action */}
           <button
             onClick={() => {
-              const circlesEl = document.getElementById("circles");
-              if (circlesEl) circlesEl.scrollIntoView({ behavior: "smooth" });
+              const chatsEl = document.getElementById("chats");
+              if (chatsEl) chatsEl.scrollIntoView({ behavior: "smooth" });
             }}
             style={{
               display: "flex",
@@ -586,8 +581,8 @@ export function HeroSpace() {
               e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.15)";
             }}
           >
-            <Compass size={18} />
-            <span>Descubrir Círculos</span>
+            <Film size={18} color="#FF6A4D" />
+            <span>Ver Salas en Vivo</span>
           </button>
         </div>
       </div>

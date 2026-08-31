@@ -1,17 +1,16 @@
 ﻿"use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useLiquidTelemetry } from "../hooks/useLiquidEngine";
-import { Activity, ChevronDown, ChevronUp, Cpu, Eye, Gauge, Sparkles, Terminal } from "lucide-react";
+import { ChevronDown, ChevronUp, Cpu, Sparkles, Terminal, ShieldCheck } from "lucide-react";
 
 export function PhysicsInspector() {
   const telemetry = useLiquidTelemetry();
   const [isExpanded, setIsExpanded] = useState(false);
-  const [activeTab, setActiveTab] = useState<"math" | "metrics">("math");
 
   return (
     <aside
-      aria-label="Physics & Shader Live Inspector"
+      aria-label="Pandly Engine Vitals"
       style={{
         position: "fixed",
         top: 20,
@@ -22,58 +21,61 @@ export function PhysicsInspector() {
         userSelect: "none",
       }}
     >
-      {/* Collapsed Pill Button */}
+      {/* Collapsed Minimalist Easter Egg Pill */}
       {!isExpanded ? (
         <button
           onClick={() => setIsExpanded(true)}
+          aria-label="Abrir telemetría técnica del motor"
           style={{
             display: "flex",
             alignItems: "center",
             gap: 8,
-            padding: "8px 14px",
+            padding: "6px 14px",
             borderRadius: 999,
-            background: "rgba(18, 20, 24, 0.82)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            border: "1px solid rgba(255, 255, 255, 0.15)",
-            boxShadow: "0 8px 24px rgba(0, 0, 0, 0.6), 0 0 12px rgba(230, 83, 60, 0.2)",
-            color: "#FFFFFF",
+            background: "rgba(18, 20, 24, 0.7)",
+            backdropFilter: "blur(18px)",
+            WebkitBackdropFilter: "blur(18px)",
+            border: "1px solid rgba(255, 255, 255, 0.1)",
+            boxShadow: "0 8px 20px rgba(0, 0, 0, 0.5)",
+            color: "#A9B0BC",
             cursor: "pointer",
-            fontSize: 12,
+            fontSize: 11,
             fontWeight: 500,
             transition: "all 0.2s ease",
             outline: "none",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.background = "rgba(30, 33, 39, 0.95)";
-            e.currentTarget.style.borderColor = "rgba(255, 106, 77, 0.4)";
+            e.currentTarget.style.background = "rgba(30, 33, 39, 0.9)";
+            e.currentTarget.style.color = "#FFFFFF";
+            e.currentTarget.style.borderColor = "rgba(255, 106, 77, 0.35)";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = "rgba(18, 20, 24, 0.82)";
-            e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.15)";
+            e.currentTarget.style.background = "rgba(18, 20, 24, 0.7)";
+            e.currentTarget.style.color = "#A9B0BC";
+            e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
           }}
         >
           <span
             style={{
-              width: 8,
-              height: 8,
+              width: 7,
+              height: 7,
               borderRadius: "50%",
               backgroundColor: telemetry.fps >= 55 ? "#06D6A0" : "#FFD166",
-              boxShadow: `0 0 8px ${telemetry.fps >= 55 ? "#06D6A0" : "#FFD166"}`,
+              boxShadow: `0 0 6px ${telemetry.fps >= 55 ? "#06D6A0" : "#FFD166"}`,
             }}
           />
-          <span style={{ color: "#FF6A4D", fontWeight: 600 }}>{telemetry.fps} FPS</span>
-          <span style={{ color: "rgba(255, 255, 255, 0.4)" }}>|</span>
-          <span>{telemetry.frameTimeMs}ms</span>
-          <ChevronDown size={14} style={{ opacity: 0.6, marginLeft: 2 }} />
+          <span>Engine Vitals</span>
+          <span style={{ color: "rgba(255, 255, 255, 0.3)" }}>•</span>
+          <span style={{ color: "#FF6A4D" }}>{telemetry.fps} FPS</span>
+          <ChevronDown size={13} style={{ opacity: 0.6 }} />
         </button>
       ) : (
-        /* Expanded Apple-Style Inspector Panel */
+        /* Expanded Dev Mode HUD Panel */
         <div
           style={{
             width: 320,
             borderRadius: 24,
-            background: "rgba(15, 17, 21, 0.92)",
+            background: "rgba(15, 17, 21, 0.94)",
             backdropFilter: "blur(32px) saturate(190%)",
             WebkitBackdropFilter: "blur(32px) saturate(190%)",
             border: "1px solid rgba(255, 255, 255, 0.14)",
@@ -87,22 +89,27 @@ export function PhysicsInspector() {
             animation: "fadeIn 0.2s ease-out",
           }}
         >
-          {/* Inspector Header */}
+          {/* Header */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              marginBottom: 14,
+              marginBottom: 12,
               paddingBottom: 10,
               borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <Terminal size={16} color="#FF6A4D" />
-              <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: "-0.01em" }}>
-                Liquid Physics Inspector
-              </span>
+              <Terminal size={15} color="#FF6A4D" />
+              <div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "#FFF" }}>
+                  Pandly Engine Vitals
+                </div>
+                <div style={{ fontSize: 10, color: "#A9B0BC", fontFamily: "var(--font-lilita-one)" }}>
+                  Telemetría C++/WASM en Tiempo Real
+                </div>
+              </div>
             </div>
 
             <button
@@ -124,13 +131,13 @@ export function PhysicsInspector() {
             </button>
           </div>
 
-          {/* Performance Status Badge */}
+          {/* Performance Stats */}
           <div
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
               gap: 8,
-              marginBottom: 14,
+              marginBottom: 12,
             }}
           >
             <div
@@ -141,10 +148,10 @@ export function PhysicsInspector() {
                 border: "1px solid rgba(255, 255, 255, 0.06)",
               }}
             >
-              <div style={{ fontSize: 10, color: "rgba(255, 255, 255, 0.45)", marginBottom: 2 }}>
-                FRAME RATE
+              <div style={{ fontSize: 9, color: "rgba(255, 255, 255, 0.45)", marginBottom: 2 }}>
+                TASA DE CUADROS
               </div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: "#06D6A0" }}>
+              <div style={{ fontSize: 15, fontWeight: 700, color: "#06D6A0" }}>
                 {telemetry.fps} <span style={{ fontSize: 10, fontWeight: 400 }}>FPS</span>
               </div>
             </div>
@@ -157,87 +164,83 @@ export function PhysicsInspector() {
                 border: "1px solid rgba(255, 255, 255, 0.06)",
               }}
             >
-              <div style={{ fontSize: 10, color: "rgba(255, 255, 255, 0.45)", marginBottom: 2 }}>
-                FRAME TIME
+              <div style={{ fontSize: 9, color: "rgba(255, 255, 255, 0.45)", marginBottom: 2 }}>
+                TIEMPO DE CUADRO
               </div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: "#FF6A4D" }}>
+              <div style={{ fontSize: 15, fontWeight: 700, color: "#FF6A4D" }}>
                 {telemetry.frameTimeMs} <span style={{ fontSize: 10, fontWeight: 400 }}>ms</span>
               </div>
             </div>
           </div>
 
-          {/* Core Shader Optical Formulas */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 11 }}>
-            {/* Normal Vector */}
+          {/* Shader Math Telemetry */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 11 }}>
             <div
               style={{
-                padding: "8px 10px",
+                padding: "7px 10px",
                 borderRadius: 12,
                 background: "rgba(0, 0, 0, 0.35)",
                 border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
             >
-              <div style={{ display: "flex", justifyContent: "space-between", color: "#A9B0BC", marginBottom: 2 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", color: "#A9B0BC", fontSize: 10 }}>
                 <span>N = normal(SDF(p))</span>
-                <span style={{ color: "#FF6A4D" }}>3D Vector</span>
+                <span style={{ color: "#FF6A4D" }}>Vector 3D</span>
               </div>
-              <div style={{ fontFamily: "monospace", fontSize: 11, color: "#FFFFFF" }}>
+              <div style={{ fontFamily: "monospace", fontSize: 10, color: "#FFF", marginTop: 2 }}>
                 [{telemetry.normal[0]}, {telemetry.normal[1]}, {telemetry.normal[2]}]
               </div>
             </div>
 
-            {/* Refraction displacement */}
             <div
               style={{
-                padding: "8px 10px",
+                padding: "7px 10px",
                 borderRadius: 12,
                 background: "rgba(0, 0, 0, 0.35)",
                 border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
             >
-              <div style={{ display: "flex", justifyContent: "space-between", color: "#A9B0BC", marginBottom: 2 }}>
-                <span>R = kr·Nxy·f(edge)·f(int)</span>
-                <span style={{ color: "#FF6A4D" }}>Disp (px)</span>
+              <div style={{ display: "flex", justifyContent: "space-between", color: "#A9B0BC", fontSize: 10 }}>
+                <span>R = kr·Nxy·f(edge)</span>
+                <span style={{ color: "#FF6A4D" }}>Refracción</span>
               </div>
-              <div style={{ fontFamily: "monospace", fontSize: 11, color: "#FFFFFF" }}>
+              <div style={{ fontFamily: "monospace", fontSize: 10, color: "#FFF", marginTop: 2 }}>
                 ΔX: {telemetry.refraction[0]} | ΔY: {telemetry.refraction[1]}
               </div>
             </div>
 
-            {/* Fresnel Factor */}
             <div
               style={{
-                padding: "8px 10px",
+                padding: "7px 10px",
                 borderRadius: 12,
                 background: "rgba(0, 0, 0, 0.35)",
                 border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
             >
-              <div style={{ display: "flex", justifyContent: "space-between", color: "#A9B0BC", marginBottom: 2 }}>
-                <span>F = F0 + (1-F0)(1-N·V)⁵</span>
+              <div style={{ display: "flex", justifyContent: "space-between", color: "#A9B0BC", fontSize: 10 }}>
+                <span>F = F₀ + (1-F₀)(1-N·V)⁵</span>
                 <span style={{ color: "#FF6A4D" }}>Fresnel</span>
               </div>
-              <div style={{ fontFamily: "monospace", fontSize: 11, color: "#FFFFFF" }}>
-                {telemetry.fresnel} (F₀ = 0.040)
+              <div style={{ fontFamily: "monospace", fontSize: 10, color: "#FFF", marginTop: 2 }}>
+                {telemetry.fresnel}
               </div>
             </div>
 
-            {/* Glass Colors Output Swatches */}
             <div
               style={{
-                padding: "8px 10px",
+                padding: "7px 10px",
                 borderRadius: 12,
                 background: "rgba(0, 0, 0, 0.35)",
                 border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
             >
-              <div style={{ color: "#A9B0BC", marginBottom: 4 }}>Color Composition</div>
+              <div style={{ color: "#A9B0BC", fontSize: 10, marginBottom: 4 }}>Composición de Color de Lente</div>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                   <span
                     style={{
-                      width: 12,
-                      height: 12,
+                      width: 10,
+                      height: 10,
                       borderRadius: 3,
                       backgroundColor: telemetry.cGlass,
                       border: "1px solid rgba(255,255,255,0.3)",
@@ -245,12 +248,11 @@ export function PhysicsInspector() {
                   />
                   <span style={{ fontSize: 10, color: "rgba(255,255,255,0.7)" }}>C_glass</span>
                 </div>
-
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                   <span
                     style={{
-                      width: 12,
-                      height: 12,
+                      width: 10,
+                      height: 10,
                       borderRadius: 3,
                       backgroundColor: telemetry.cFinal,
                       border: "1px solid rgba(255,255,255,0.3)",
@@ -262,20 +264,19 @@ export function PhysicsInspector() {
             </div>
           </div>
 
-          {/* Footer Info */}
           <div
             style={{
-              marginTop: 12,
+              marginTop: 10,
               paddingTop: 8,
               borderTop: "1px solid rgba(255, 255, 255, 0.06)",
               display: "flex",
               justifyContent: "space-between",
-              fontSize: 10,
+              fontSize: 9,
               color: "rgba(255, 255, 255, 0.4)",
             }}
           >
-            <span>Lenses: {telemetry.activeLensesCount}</span>
-            <span>V_ptr: [{telemetry.pointerVelocity[0]}, {telemetry.pointerVelocity[1]}]</span>
+            <span>Lentes activas: {telemetry.activeLensesCount}</span>
+            <span>V_cursor: [{telemetry.pointerVelocity[0]}, {telemetry.pointerVelocity[1]}]</span>
           </div>
         </div>
       )}

@@ -24,12 +24,12 @@ const lilitaOne = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Pandly — Where Stickers Come Alive",
+  title: "Pandly — Tu espacio para rolear, conectar y vivir la pantalla juntos",
   description:
-    "A liquid glass experience with living stickers, adaptive dock, and 2.5D glass morphism.",
+    "Salas de cine sincronizadas, chats de voz interactivos y círculos donde tu identidad cobra vida.",
   openGraph: {
-    title: "Pandly",
-    description: "Where Stickers Come Alive",
+    title: "Pandly — Tu espacio para rolear y conectar",
+    description: "Salas de cine sincronizadas, chats de voz interactivos y círculos.",
     images: ["/assets/logo/PANDLY_LOGO_PERFECT_FOR_PRODUCTION.png"],
   },
 };
