@@ -11,11 +11,11 @@ Este repositorio contiene la **Landing Page oficial e interactiva de Pandly**, c
 Pandly reimagina la interacción digital para comunidades, fandoms y grupos de amigos. La landing page no solo presenta las funcionalidades del ecosistema, sino que actúa como una demostración técnica viva de micro-interacciones a 120 FPS, refracción óptica 2.5D en tiempo real y dinámicas de muelle continuo.
 
 ### Características Principales del Producto
-- 🎭 **Roleplay Rooms & Espacios Vivos**: Escenarios interactivos con avatares 2.5D reactivos.
-- 🍿 **Salas de Cine Compartidas (Watch Parties)**: Reproducción sincronizada al milisegundo y chat en vivo.
-- 🎙️ **Voice Lounges con Audio Espacial**: Salas de voz espontáneas con sonido direccional envolvente.
-- ⭕ **Círculos y Comunidades**: Hubs temáticos (#AnimeCinema, #RoleplayUniverse, #GamerSquad).
-- ✨ **523 Living Stickers & Reacciones Táctiles**: Emociones elásticas con masa, rebote e inercia física real.
+- **Roleplay Rooms & Espacios Vivos**: Escenarios interactivos con avatares 2.5D reactivos.
+- **Salas de Cine Compartidas (Watch Parties)**: Reproducción sincronizada al milisegundo y chat en vivo.
+- **Voice Lounges con Audio Espacial**: Salas de voz espontáneas con sonido direccional envolvente.
+- **Círculos y Comunidades**: Hubs temáticos (#AnimeCinema, #RoleplayUniverse, #GamerSquad).
+- **523 Living Stickers & Reacciones Táctiles**: Emociones elásticas con masa, rebote e inercia física real.
 
 ---
 
@@ -173,4 +173,4 @@ Pandly/
 
 ## 8. Licencia
 
-Código fuente y assets pertenecientes al proyecto Pandly. Todos los derechos reservados.
+Código fuente y assets pertenecientes al proyecto Pandly, Inc. Todos los derechos reservados.
