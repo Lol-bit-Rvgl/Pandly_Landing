@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Grid, Film, Smartphone, BookOpen, Heart, MessageCircle, Share2, Sparkles, Flame, Eye } from "lucide-react";
+import { Grid, Film, Smartphone, BookOpen, Heart, MessageCircle, Share2, Sparkles } from "lucide-react";
 import { useLiquidEngine } from "../hooks/useLiquidEngine";
 
 export type PostFormat = "grid" | "cover" | "vertical" | "text";
@@ -45,6 +45,11 @@ const FORMATS: FormatInfo[] = [
   },
 ];
 
+/**
+ * FeedShowcase
+ * Showcase component demonstrating community content formats with
+ * real-time 2.5D optical tilt, Fresnel rim calculation, and dynamic engagement.
+ */
 export function FeedShowcase() {
   const [selectedFormat, setSelectedFormat] = useState<PostFormat>("grid");
   const [likes, setLikes] = useState<Record<string, number>>({
@@ -54,14 +59,13 @@ export function FeedShowcase() {
     text: 215,
   });
   const [hasLiked, setHasLiked] = useState<Record<string, boolean>>({});
-  
+
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
   const cardElementRef = useRef<HTMLDivElement | null>(null);
   const [cardTilt, setCardTilt] = useState({ rotateX: 0, rotateY: 0, fresnelGlow: 0.04 });
 
   const { registerLens, removeLens } = useLiquidEngine();
 
-  // Register the active showcase card as GlassLens
   useEffect(() => {
     if (!cardElementRef.current) return;
 
@@ -83,7 +87,6 @@ export function FeedShowcase() {
     };
   }, [selectedFormat, registerLens, removeLens]);
 
-  // Handle 2.5D optical tilt & Fresnel calculations
   const handleCardPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (!cardElementRef.current) return;
     const rect = cardElementRef.current.getBoundingClientRect();
@@ -96,7 +99,7 @@ export function FeedShowcase() {
     const rotY = normX * 12;
     const rotX = -normY * 12;
 
-    // Fresnel calculation: F = F0 + (1-F0)*(1 - N.V)^5
+    // Fresnel equation: F = F0 + (1 - F0) * (1 - N.V)^5
     const distNorm = Math.sqrt(normX * normX + normY * normY);
     const nDotV = Math.sqrt(Math.max(0.1, 1 - distNorm * 0.45));
     const fresnel = 0.04 + (1 - 0.04) * Math.pow(1 - nDotV, 5);
@@ -137,7 +140,6 @@ export function FeedShowcase() {
         zIndex: 15,
       }}
     >
-      {/* Section Header */}
       <div style={{ textAlign: "center", maxWidth: 760, marginBottom: 44 }}>
         <div
           style={{
@@ -184,7 +186,6 @@ export function FeedShowcase() {
         </p>
       </div>
 
-      {/* Format Selector Tabs */}
       <div
         style={{
           display: "flex",
@@ -238,7 +239,6 @@ export function FeedShowcase() {
         })}
       </div>
 
-      {/* Interactive 3D Card Stage */}
       <div
         style={{
           perspective: 1200,
@@ -275,7 +275,6 @@ export function FeedShowcase() {
             transformStyle: "preserve-3d",
           }}
         >
-          {/* Card Header (Author info & presence) */}
           <div
             style={{
               display: "flex",
@@ -355,7 +354,6 @@ export function FeedShowcase() {
             </div>
           </div>
 
-          {/* Dynamic Post Format Body */}
           {selectedFormat === "grid" && (
             <div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
@@ -490,7 +488,6 @@ export function FeedShowcase() {
             </div>
           )}
 
-          {/* Card Footer Actions */}
           <div
             style={{
               display: "flex",
@@ -501,7 +498,6 @@ export function FeedShowcase() {
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              {/* Like Button */}
               <button
                 onClick={() => handleToggleLike(selectedFormat)}
                 style={{
@@ -527,7 +523,6 @@ export function FeedShowcase() {
                 <span>{likes[selectedFormat]}</span>
               </button>
 
-              {/* Comments */}
               <div
                 style={{
                   display: "flex",
@@ -543,7 +538,6 @@ export function FeedShowcase() {
               </div>
             </div>
 
-            {/* Share */}
             <button
               style={{
                 display: "flex",

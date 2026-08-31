@@ -1,15 +1,19 @@
 ﻿"use client";
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
-import { Sparkles, ArrowRight, Play, Compass, Flame, Users, Film, Radio } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { Sparkles, ArrowRight, Film, Flame } from "lucide-react";
 import { useLiquidEngine, solveSpring, SPRING_PRESETS } from "../hooks/useLiquidEngine";
 
+/**
+ * HeroSpace
+ * Interactive hero section combining the 2.5D optical refraction canvas,
+ * particle dynamics with pointer inertia, and core product value proposition.
+ */
 export function HeroSpace() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const { registerLens, removeLens } = useLiquidEngine();
 
-  // Interactive particle & optical ripple state
   const particlesRef = useRef<Array<{
     x: number;
     y: number;
@@ -36,7 +40,6 @@ export function HeroSpace() {
   const [ctaScale, setCtaScale] = useState(1);
   const ctaSpringRef = useRef({ position: 1, velocity: 0, target: 1 });
 
-  // Register Hero as GlassLens in liquid engine
   useEffect(() => {
     if (!containerRef.current) return;
     const lens = registerLens({
@@ -57,7 +60,6 @@ export function HeroSpace() {
     };
   }, [registerLens, removeLens]);
 
-  // Initialize particles
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -86,7 +88,6 @@ export function HeroSpace() {
     particlesRef.current = pts;
   }, []);
 
-  // Hero canvas animation loop with optical inertia and liquid dispersion
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -111,7 +112,6 @@ export function HeroSpace() {
       const dt = Math.min(0.04, Math.max(0.001, (now - lastTime) / 1000));
       lastTime = now;
 
-      // CTA spring step
       ctaSpringRef.current = solveSpring(SPRING_PRESETS.press, ctaSpringRef.current, dt);
       setCtaScale(ctaSpringRef.current.position);
 
@@ -122,7 +122,7 @@ export function HeroSpace() {
 
       ctx.clearRect(0, 0, w, h);
 
-      // Smooth pointer & inertia ODE
+      // Inertial cursor ODE integration (wn = 26.0, zeta = 0.86)
       const wn = 26.0;
       const zeta = 0.86;
       const c = 2.0 * zeta * wn;
@@ -144,7 +144,7 @@ export function HeroSpace() {
       const inX = lensInertiaRef.current.x;
       const inY = lensInertiaRef.current.y;
 
-      // Draw interactive ambient grid
+      // Ambient optical grid
       ctx.save();
       ctx.strokeStyle = "rgba(255, 255, 255, 0.035)";
       ctx.lineWidth = 1;
@@ -163,7 +163,7 @@ export function HeroSpace() {
       }
       ctx.restore();
 
-      // Render liquid ripples
+      // Liquid ripples
       for (let i = ripplesRef.current.length - 1; i >= 0; i--) {
         const rip = ripplesRef.current[i];
         rip.radius += 120 * dt * dpr;
@@ -185,7 +185,7 @@ export function HeroSpace() {
         ctx.restore();
       }
 
-      // Render living particles & optical refraction
+      // Particle simulation with vector displacement
       const pts = particlesRef.current;
       for (let i = 0; i < pts.length; i++) {
         const p = pts[i];
@@ -193,13 +193,11 @@ export function HeroSpace() {
         p.x += p.vx * 60 * dt * dpr;
         p.y += p.vy * 60 * dt * dpr;
 
-        // Wrap around bounds
         if (p.x < 0) p.x = w;
         if (p.x > w) p.x = 0;
         if (p.y < 0) p.y = h;
         if (p.y > h) p.y = 0;
 
-        // Interaction displacement from inertia cursor
         const dx = p.x - inX;
         const dy = p.y - inY;
         const dist = Math.sqrt(dx * dx + dy * dy);
@@ -211,7 +209,6 @@ export function HeroSpace() {
           dispY = (dy / dist) * force;
         }
 
-        // Draw particle
         ctx.save();
         ctx.beginPath();
         ctx.arc(p.x + dispX, p.y + dispY, p.size * dpr, 0, Math.PI * 2);
@@ -222,7 +219,6 @@ export function HeroSpace() {
         ctx.fill();
         ctx.restore();
 
-        // Connect nearby particles with subtle light line
         for (let j = i + 1; j < pts.length; j++) {
           const p2 = pts[j];
           const cdx = p.x - p2.x;
@@ -241,7 +237,7 @@ export function HeroSpace() {
         }
       }
 
-      // Draw Glass Focal Spotlight & Specular Ring
+      // Specular focal glow
       ctx.save();
       const spotGrad = ctx.createRadialGradient(inX, inY, 0, inX, inY, 220 * dpr);
       spotGrad.addColorStop(0, "rgba(255, 106, 77, 0.22)");
@@ -317,7 +313,6 @@ export function HeroSpace() {
         zIndex: 10,
       }}
     >
-      {/* Background Interactive Pandly Space Canvas */}
       <div
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
@@ -350,7 +345,6 @@ export function HeroSpace() {
           }}
         />
 
-        {/* Floating Living Presence Badge */}
         <div
           style={{
             position: "absolute",
@@ -384,7 +378,6 @@ export function HeroSpace() {
           <span>2,480 en Watch Parties & Rol en Vivo</span>
         </div>
 
-        {/* Floating Panda Head Sticker */}
         <div
           style={{
             position: "absolute",
@@ -423,7 +416,6 @@ export function HeroSpace() {
         </div>
       </div>
 
-      {/* Hero Headline & User-Centered Content */}
       <div
         style={{
           position: "relative",
@@ -435,7 +427,6 @@ export function HeroSpace() {
           pointerEvents: "auto",
         }}
       >
-        {/* User-Centric Badge */}
         <div
           style={{
             display: "inline-flex",
@@ -457,7 +448,6 @@ export function HeroSpace() {
           <span>La nueva dimensión de interacción social</span>
         </div>
 
-        {/* Sticker-Stroke Display Headline */}
         <h1
           style={{
             fontFamily: "var(--font-dyna-puff), cursive",
@@ -487,7 +477,6 @@ export function HeroSpace() {
           </span>
         </h1>
 
-        {/* User-Focused Subtitle */}
         <p
           style={{
             fontFamily: "var(--font-lilita-one), sans-serif",
@@ -502,7 +491,6 @@ export function HeroSpace() {
           Salas de cine sincronizadas, chats de voz interactivos y círculos donde tu identidad cobra vida.
         </p>
 
-        {/* Action Buttons */}
         <div
           style={{
             display: "flex",
@@ -512,7 +500,6 @@ export function HeroSpace() {
             flexWrap: "wrap",
           }}
         >
-          {/* Main CTA */}
           <button
             onClick={handleCtaClick}
             style={{
@@ -550,7 +537,6 @@ export function HeroSpace() {
             <ArrowRight size={18} />
           </button>
 
-          {/* Secondary Action */}
           <button
             onClick={() => {
               const chatsEl = document.getElementById("chats");

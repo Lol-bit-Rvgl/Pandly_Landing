@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { solveSpring, SPRING_PRESETS } from "../hooks/useLiquidEngine";
-import { Sparkles, Heart, Flame, Laugh, ThumbsUp, PartyPopper } from "lucide-react";
+import { Sparkles, Heart, Flame, Laugh, PartyPopper } from "lucide-react";
 
 export interface ReactionItem {
   id: string;
@@ -32,6 +32,11 @@ interface FloatingParticle {
   rotation: number;
 }
 
+/**
+ * ReactionPicker
+ * 5-column floating reaction bar with spring dynamics (m=0.45, k=420, d=22)
+ * and particle emission on press.
+ */
 export function ReactionPicker() {
   const [counts, setCounts] = useState<Record<string, number>>({
     heart: 184,
@@ -61,7 +66,6 @@ export function ReactionPicker() {
   const [particles, setParticles] = useState<FloatingParticle[]>([]);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Animation frame loop for reaction spring physics (mass 0.45, stiffness 420, damping 22)
   useEffect(() => {
     let rafId: number;
     let lastTime = performance.now();
@@ -70,7 +74,6 @@ export function ReactionPicker() {
       const dt = Math.min(0.04, Math.max(0.001, (now - lastTime) / 1000));
       lastTime = now;
 
-      // Reaction Spring: mass 0.45, stiffness 420, damping 22
       const reactionParams = SPRING_PRESETS.reaction;
       const nextScales: Record<string, number> = {};
 
@@ -81,14 +84,13 @@ export function ReactionPicker() {
 
       setScales(nextScales);
 
-      // Update floating flying particles
       setParticles((prev) =>
         prev
           .map((p) => ({
             ...p,
             x: p.x + p.vx * dt * 60,
             y: p.y + p.vy * dt * 60,
-            vy: p.vy + 0.15, // subtle gravity
+            vy: p.vy + 0.15,
             alpha: p.alpha - dt * 1.1,
             scale: p.scale * 0.98,
             rotation: p.rotation + 2,
@@ -106,20 +108,17 @@ export function ReactionPicker() {
   const handleReactionPress = useCallback((reaction: ReactionItem, e: React.MouseEvent<HTMLButtonElement>) => {
     setActiveReactionId(reaction.id);
 
-    // Seed spring with canonical velocity = 6.5 (from PANDLY_MOTION_PHYSICS_MATRIX S05)
     springStatesRef.current[reaction.id] = {
       position: 1.45,
       velocity: 6.5,
       target: 1.0,
     };
 
-    // Increment count
     setCounts((prev) => ({
       ...prev,
       [reaction.id]: prev[reaction.id] + 1,
     }));
 
-    // Spawn floating burst particles
     const rect = e.currentTarget.getBoundingClientRect();
     const containerRect = containerRef.current?.getBoundingClientRect() || rect;
     const spawnX = rect.left - containerRect.left + rect.width / 2;
@@ -160,7 +159,6 @@ export function ReactionPicker() {
         padding: "24px 0",
       }}
     >
-      {/* Flying Particle Canvas Elements */}
       <div
         style={{
           position: "absolute",
@@ -189,7 +187,6 @@ export function ReactionPicker() {
         ))}
       </div>
 
-      {/* Floating 5-Column Glass Reaction Bar */}
       <div
         style={{
           display: "grid",
@@ -240,7 +237,6 @@ export function ReactionPicker() {
                   : "transparent";
               }}
             >
-              {/* Emoji Glyph */}
               <span
                 style={{
                   fontSize: 26,
@@ -253,7 +249,6 @@ export function ReactionPicker() {
                 {item.emoji}
               </span>
 
-              {/* Reaction Counter */}
               <span
                 style={{
                   fontFamily: "var(--font-dyna-puff)",

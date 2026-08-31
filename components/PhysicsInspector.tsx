@@ -2,8 +2,14 @@
 
 import React, { useState } from "react";
 import { useLiquidTelemetry } from "../hooks/useLiquidEngine";
-import { ChevronDown, ChevronUp, Cpu, Sparkles, Terminal, ShieldCheck } from "lucide-react";
+import { ChevronDown, ChevronUp, Terminal } from "lucide-react";
 
+/**
+ * PhysicsInspector
+ * Collapsible real-time telemetry HUD displaying engine vital metrics:
+ * framerate, frame delta, surface normal N, refraction offset R, Fresnel factor F,
+ * and adaptive color compositing.
+ */
 export function PhysicsInspector() {
   const telemetry = useLiquidTelemetry();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -21,7 +27,6 @@ export function PhysicsInspector() {
         userSelect: "none",
       }}
     >
-      {/* Collapsed Minimalist Easter Egg Pill */}
       {!isExpanded ? (
         <button
           onClick={() => setIsExpanded(true)}
@@ -70,7 +75,6 @@ export function PhysicsInspector() {
           <ChevronDown size={13} style={{ opacity: 0.6 }} />
         </button>
       ) : (
-        /* Expanded Dev Mode HUD Panel */
         <div
           style={{
             width: 320,
@@ -89,7 +93,6 @@ export function PhysicsInspector() {
             animation: "fadeIn 0.2s ease-out",
           }}
         >
-          {/* Header */}
           <div
             style={{
               display: "flex",
@@ -131,7 +134,6 @@ export function PhysicsInspector() {
             </button>
           </div>
 
-          {/* Performance Stats */}
           <div
             style={{
               display: "grid",
@@ -173,7 +175,6 @@ export function PhysicsInspector() {
             </div>
           </div>
 
-          {/* Shader Math Telemetry */}
           <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 11 }}>
             <div
               style={{

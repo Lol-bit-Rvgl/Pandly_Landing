@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Home, Compass, Plus, MessageCircle, User } from "lucide-react";
@@ -24,17 +24,71 @@ export function LiquidDock() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [pressedIndex, setPressedIndex] = useState<number | null>(null);
   const [indicatorX, setIndicatorX] = useState(0);
+  const [indicatorY, setIndicatorY] = useState(0);
   const [indicatorScale, setIndicatorScale] = useState(1);
   const [indicatorMorph, setIndicatorMorph] = useState(1);
-  
-  // Spring state for cutout translation
+
+  // Spring physics states
+  // S03 / P3 dockMorph: mass 1.25, stiffness 260, damping 33.17 (ratio 0.92)
   const springPosRef = useRef({ position: 0, velocity: 0, target: 0 });
+  const springPosYRef = useRef({ position: 34, velocity: 0, target: 34 });
   const springScaleRef = useRef({ position: 1, velocity: 0, target: 1 });
   const springMorphRef = useRef({ position: 1, velocity: 0, target: 1 });
-  
+
   const dockRef = useRef<HTMLDivElement | null>(null);
+  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const isScrollingFromClickRef = useRef(false);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Dynamic concentric position calculation from DOM rects
+  const calculateTargetCoordinates = useCallback((index: number) => {
+    const dockEl = dockRef.current;
+    const itemEl = itemRefs.current[index];
+    if (!dockEl || !itemEl) return;
+
+    const dockRect = dockEl.getBoundingClientRect();
+    const itemRect = itemEl.getBoundingClientRect();
+
+    // Exact horizontal center relative to dock container
+    const centerX = itemRect.left - dockRect.left + itemRect.width / 2;
+
+    // Exact vertical alignment with the icon (centered on the active elevated icon)
+    const isCreate = DESTINATIONS[index]?.isCreate;
+    const centerY = itemRect.top - dockRect.top + (isCreate ? itemRect.height / 2 : 22);
+
+    springPosRef.current.target = centerX;
+    springPosYRef.current.target = centerY;
+  }, []);
+
+  const updateTargetIndex = useCallback(
+    (index: number) => {
+      setActiveIndex(index);
+      calculateTargetCoordinates(index);
+
+      // Trigger elastic scale impulse
+      springScaleRef.current.position = 0.86;
+      springScaleRef.current.velocity = 2.6;
+      springScaleRef.current.target = 1.0;
+    },
+    [calculateTargetCoordinates]
+  );
+
+  // Initial measurement & Resize observer
+  useEffect(() => {
+    const handleRecalculate = () => {
+      calculateTargetCoordinates(activeIndex);
+    };
+
+    // Calculate immediately and after brief layout tick
+    handleRecalculate();
+    const frameId = requestAnimationFrame(handleRecalculate);
+
+    window.addEventListener("resize", handleRecalculate);
+    return () => {
+      cancelAnimationFrame(frameId);
+      window.removeEventListener("resize", handleRecalculate);
+    };
+  }, [activeIndex, calculateTargetCoordinates]);
 
   // Animation frame loop for continuous spring physics
   useEffect(() => {
@@ -45,20 +99,22 @@ export function LiquidDock() {
       const dt = Math.min(0.04, Math.max(0.001, (now - lastTime) / 1000));
       lastTime = now;
 
-      // S03 / P3 dockMorphSpring: mass 1.25, stiffness 260, damping 33.17 (ratio 0.92)
+      // P3 dockMorph (mass: 1.25, stiffness: 260, damping: 33.17 / ratio: 0.92)
       const morphSpring = SPRING_PRESETS.dockMorph;
       const travelSpring = SPRING_PRESETS.travel;
       const pressSpring = SPRING_PRESETS.press;
 
-      // Step X position
+      // Step X and Y positions
       springPosRef.current = solveSpring(morphSpring, springPosRef.current, dt);
       setIndicatorX(springPosRef.current.position);
 
-      // Step Scale
+      springPosYRef.current = solveSpring(morphSpring, springPosYRef.current, dt);
+      setIndicatorY(springPosYRef.current.position);
+
+      // Step Scale and Morph
       springScaleRef.current = solveSpring(travelSpring, springScaleRef.current, dt);
       setIndicatorScale(springScaleRef.current.position);
 
-      // Step Morph
       springMorphRef.current = solveSpring(pressSpring, springMorphRef.current, dt);
       setIndicatorMorph(springMorphRef.current.position);
 
@@ -68,25 +124,6 @@ export function LiquidDock() {
     rafId = requestAnimationFrame(updatePhysics);
     return () => cancelAnimationFrame(rafId);
   }, []);
-
-  // Update target when active index changes
-  const updateTargetIndex = useCallback((index: number) => {
-    setActiveIndex(index);
-    // 5 items evenly distributed on 340-360px dock
-    const itemWidth = 62;
-    const startOffset = 26;
-    const targetPx = startOffset + index * itemWidth;
-    springPosRef.current.target = targetPx;
-
-    // Trigger elastic scale pulse
-    springScaleRef.current.position = 0.88;
-    springScaleRef.current.velocity = 2.4;
-    springScaleRef.current.target = 1.0;
-  }, []);
-
-  useEffect(() => {
-    updateTargetIndex(0);
-  }, [updateTargetIndex]);
 
   // Bidirectional sync with Scroll via IntersectionObserver
   useEffect(() => {
@@ -132,7 +169,7 @@ export function LiquidDock() {
   const handleItemClick = (index: number, targetId: string) => {
     setPressedIndex(index);
     springMorphRef.current.position = 0.82;
-    springMorphRef.current.velocity = -2.0;
+    springMorphRef.current.velocity = -2.2;
     springMorphRef.current.target = 1.0;
 
     // Press timeout: 95ms
@@ -173,71 +210,74 @@ export function LiquidDock() {
         height: 68,
         width: "min(94vw, 360px)",
         borderRadius: 36,
-        background: "rgba(18, 20, 24, 0.76)",
+        background: "rgba(18, 20, 24, 0.78)",
         backdropFilter: "blur(28px) saturate(180%)",
         WebkitBackdropFilter: "blur(28px) saturate(180%)",
         border: "1px solid rgba(255, 255, 255, 0.12)",
         boxShadow: `
-          0 16px 40px -12px rgba(0, 0, 0, 0.75),
+          0 16px 40px -12px rgba(0, 0, 0, 0.8),
           0 0 0 1px rgba(255, 255, 255, 0.05) inset,
-          0 8px 24px -4px rgba(230, 83, 60, 0.2)
+          0 8px 24px -4px rgba(230, 83, 60, 0.25)
         `,
         userSelect: "none",
         touchAction: "manipulation",
       }}
     >
-      {/* SVG Liquid Cutout Track & Glow Bulb */}
+      {/* SVG Liquid Indicator Track & Glow (Directly bounds-aligned) */}
       <svg
         aria-hidden="true"
         style={{
           position: "absolute",
-          top: -12,
+          top: 0,
           left: 0,
           width: "100%",
-          height: "calc(100% + 16px)",
+          height: "100%",
           pointerEvents: "none",
           overflow: "visible",
         }}
       >
         <defs>
           <radialGradient id="liquidBulbGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#FF6A4D" stopOpacity="0.8" />
-            <stop offset="40%" stopColor="#E6533C" stopOpacity="0.4" />
+            <stop offset="0%" stopColor="#FF6A4D" stopOpacity="0.75" />
+            <stop offset="35%" stopColor="#E6533C" stopOpacity="0.4" />
+            <stop offset="70%" stopColor="#E6533C" stopOpacity="0.12" />
             <stop offset="100%" stopColor="#E6533C" stopOpacity="0" />
           </radialGradient>
-          <filter id="liquidBlur" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+          <filter id="liquidBlur" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="7" />
           </filter>
         </defs>
 
-        {/* Dynamic Glowing Cutout Indicator */}
-        <g transform={`translate(${indicatorX}, 18)`}>
-          {/* Ambient Glow Aura */}
-          <circle
-            cx="0"
-            cy="0"
-            r={24 * indicatorScale}
-            fill="url(#liquidBulbGlow)"
-            filter="url(#liquidBlur)"
-          />
-          {/* Liquid Cutout Droplet Core */}
-          <circle
-            cx="0"
-            cy="-2"
-            r={21 * indicatorScale}
-            fill="rgba(230, 83, 60, 0.35)"
-            stroke="rgba(255, 106, 77, 0.6)"
-            strokeWidth="1.5"
-          />
-          {/* Top specular glint */}
-          <ellipse
-            cx="0"
-            cy="-12"
-            rx={8 * indicatorScale}
-            ry={2.5 * indicatorScale}
-            fill="rgba(255, 255, 255, 0.75)"
-          />
-        </g>
+        {/* Dynamic Concentric Glowing Indicator Group */}
+        {indicatorX > 0 && (
+          <g transform={`translate(${indicatorX}, ${indicatorY})`}>
+            {/* Concentric Ambient Glow */}
+            <circle
+              cx="0"
+              cy="0"
+              r={28 * indicatorScale}
+              fill="url(#liquidBulbGlow)"
+              filter="url(#liquidBlur)"
+            />
+            {/* Liquid Cutout Droplet Core */}
+            <circle
+              cx="0"
+              cy="0"
+              r={22 * indicatorScale}
+              fill="rgba(230, 83, 60, 0.3)"
+              stroke="rgba(255, 106, 77, 0.55)"
+              strokeWidth="1.2"
+            />
+            {/* Top Specular Glint */}
+            <ellipse
+              cx="0"
+              cy={-12 * indicatorScale}
+              rx={7 * indicatorScale}
+              ry={2.2 * indicatorScale}
+              fill="rgba(255, 255, 255, 0.65)"
+            />
+          </g>
+        )}
       </svg>
 
       {/* Dock Destination Items */}
@@ -247,7 +287,7 @@ export function LiquidDock() {
           alignItems: "center",
           justifyContent: "space-between",
           width: "100%",
-          padding: "0 4px",
+          padding: "0 2px",
           position: "relative",
           zIndex: 2,
         }}
@@ -261,6 +301,9 @@ export function LiquidDock() {
             return (
               <button
                 key={dest.id}
+                ref={(el) => {
+                  itemRefs.current[idx] = el;
+                }}
                 onClick={() => handleItemClick(idx, dest.targetId)}
                 aria-label={dest.label}
                 style={{
@@ -277,7 +320,7 @@ export function LiquidDock() {
                   color: "#FFFFFF",
                   boxShadow: `
                     0 8px 24px -4px rgba(230, 83, 60, 0.7),
-                    0 0 0 2px rgba(255, 255, 255, 0.2) inset
+                    0 0 0 2px rgba(255, 255, 255, 0.25) inset
                   `,
                   transform: `
                     translateY(${isActive ? -10 : isPressed ? -2 : -5}px)
@@ -296,6 +339,9 @@ export function LiquidDock() {
           return (
             <button
               key={dest.id}
+              ref={(el) => {
+                itemRefs.current[idx] = el;
+              }}
               onClick={() => handleItemClick(idx, dest.targetId)}
               aria-label={dest.label}
               style={{
@@ -326,7 +372,7 @@ export function LiquidDock() {
                   alignItems: "center",
                   justifyContent: "center",
                   filter: isActive
-                    ? "drop-shadow(0 0 10px rgba(255, 106, 77, 0.8))"
+                    ? "drop-shadow(0 0 10px rgba(255, 106, 77, 0.85))"
                     : "none",
                 }}
               >
