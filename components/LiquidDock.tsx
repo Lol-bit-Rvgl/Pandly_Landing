@@ -1,8 +1,8 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Home, Compass, Plus, MessageCircle, User } from "lucide-react";
-import { solveSpring, SPRING_PRESETS } from "../hooks/useLiquidEngine";
+import { solveSpring, SPRING_PRESETS, kineticScrollTo } from "../hooks/useLiquidEngine";
 
 export interface DockDestination {
   id: string;
@@ -185,7 +185,7 @@ export function LiquidDock() {
       isScrollingFromClickRef.current = true;
       if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
 
-      targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      kineticScrollTo(targetId, 70);
 
       scrollTimeoutRef.current = setTimeout(() => {
         isScrollingFromClickRef.current = false;

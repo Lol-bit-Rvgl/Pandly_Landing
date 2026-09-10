@@ -58,6 +58,7 @@ let wasmModulePromise: Promise<LiquidWasmModule | null> | null = null;
 let glueScriptEl: HTMLScriptElement | null = null;
 
 function loadGlueScript(): Promise<void> {
+  if (typeof document === "undefined") return Promise.resolve();
   if (glueScriptEl) return Promise.resolve();
   return new Promise<void>((resolve, reject) => {
     const s = document.createElement("script");
@@ -71,6 +72,7 @@ function loadGlueScript(): Promise<void> {
 }
 
 async function loadWasmModule(): Promise<LiquidWasmModule | null> {
+  if (typeof window === "undefined" || typeof document === "undefined") return null;
   if (!wasmModulePromise) {
     wasmModulePromise = (async () => {
       try {
@@ -349,7 +351,7 @@ export function useLiquidEngine(canvasId: string = "glass-canvas") {
   const lastPointerRef = useRef<{ x: number; y: number; time: number }>({
     x: 0,
     y: 0,
-    time: performance.now(),
+    time: 0,
   });
   const inertialPosRef = useRef<{ x: number; y: number; vx: number; vy: number }>({
     x: 0,
@@ -747,4 +749,46 @@ export function useLiquidTelemetry() {
   }, []);
 
   return telemetry;
+}
+
+/**
+ * kineticScrollTo
+ * Fluid kinetic scrolling with quartic deceleration curve
+ * (cubic-bezier(0.16, 1, 0.3, 1) response) driven by requestAnimationFrame.
+ * Eliminates mechanical stops and ensures 120 FPS inertial scroll.
+ */
+export function kineticScrollTo(target: string | number, offset: number = 70, duration: number = 850) {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+
+  let targetY = 0;
+  if (typeof target === "string") {
+    const cleanId = target.replace(/^#/, "");
+    const el = document.getElementById(cleanId);
+    if (!el) return;
+    const bodyRect = document.body ? document.body.getBoundingClientRect().top : 0;
+    const elementRect = el.getBoundingClientRect().top;
+    targetY = elementRect - bodyRect - offset;
+  } else {
+    targetY = target;
+  }
+
+  const startY = window.scrollY;
+  const distance = targetY - startY;
+  if (Math.abs(distance) < 2) return;
+
+  const startTime = performance.now();
+
+  const step = (currentTime: number) => {
+    const elapsed = currentTime - startTime;
+    const t = Math.min(1, elapsed / duration);
+    const eased = 1 - Math.pow(1 - t, 4);
+
+    window.scrollTo(0, startY + distance * eased);
+
+    if (t < 1) {
+      requestAnimationFrame(step);
+    }
+  };
+
+  requestAnimationFrame(step);
 }

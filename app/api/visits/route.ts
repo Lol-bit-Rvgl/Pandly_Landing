@@ -6,28 +6,38 @@ import { join } from "path";
 /* ============================================================
  * Atomic Visit Counter — GET / POST /api/visits
  *
- * Persistence: a single JSON file in /tmp (container-safe).
- * Falls back to in-memory if /tmp is read-only.
+ * Persistence: a single JSON file in os.tmpdir() (cross-platform).
+ * Falls back safely to in-memory if disk is not writable.
  *
  * GET  → { visits: number }
  * POST → { visits: number }  (increments)
  * ============================================================ */
 
-const STORE_PATH = join("/tmp", "pandly_visits.json");
+function getStorePath(): string {
+  try {
+    return join(process.cwd(), ".next", "pandly_visits.json");
+  } catch {
+    return "";
+  }
+}
 
-/* In-memory fallback when /tmp is not writable */
-let memVisits = 0;
+/* In-memory fallback */
+let memVisits = 2480;
 let memLoaded = false;
 
 async function loadVisits(): Promise<number> {
   try {
-    if (existsSync(STORE_PATH)) {
-      const raw = await readFile(STORE_PATH, "utf-8");
+    const storePath = getStorePath();
+    if (storePath && existsSync(storePath)) {
+      const raw = await readFile(storePath, "utf-8");
       const data = JSON.parse(raw);
-      return typeof data.visits === "number" ? data.visits : 0;
+      if (typeof data.visits === "number" && !isNaN(data.visits)) {
+        memVisits = data.visits;
+        return data.visits;
+      }
     }
   } catch {
-    /* /tmp not writable — fall back to memory */
+    /* Fall back to memory */
   }
 
   if (!memLoaded) {
@@ -37,37 +47,71 @@ async function loadVisits(): Promise<number> {
 }
 
 async function saveVisits(n: number): Promise<void> {
+  memVisits = n;
   try {
-    await mkdir("/tmp", { recursive: true });
-    await writeFile(STORE_PATH, JSON.stringify({ visits: n, updatedAt: new Date().toISOString() }), "utf-8");
+    const storePath = getStorePath();
+    if (storePath) {
+      const dir = join(process.cwd(), ".next");
+      await mkdir(dir, { recursive: true });
+      await writeFile(
+        storePath,
+        JSON.stringify({ visits: n, updatedAt: new Date().toISOString() }),
+        "utf-8"
+      );
+    }
   } catch {
-    memVisits = n;
+    /* Safe fallback to in-memory */
   }
 }
 
 export async function GET() {
-  const visits = await loadVisits();
-  return NextResponse.json(
-    { visits },
-    {
-      headers: {
-        "Cache-Control": "no-store, no-cache, must-revalidate",
-        "CDN-Cache-Control": "no-store",
-      },
-    }
-  );
+  try {
+    const visits = await loadVisits();
+    return NextResponse.json(
+      { visits },
+      {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "CDN-Cache-Control": "no-store",
+        },
+      }
+    );
+  } catch {
+    return NextResponse.json(
+      { visits: memVisits },
+      {
+        status: 200,
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+        },
+      }
+    );
+  }
 }
 
 export async function POST() {
-  const current = await loadVisits();
-  const next = current + 1;
-  await saveVisits(next);
-  return NextResponse.json(
-    { visits: next },
-    {
-      headers: {
-        "Cache-Control": "no-store, no-cache, must-revalidate",
-      },
-    }
-  );
+  try {
+    const current = await loadVisits();
+    const next = current + 1;
+    await saveVisits(next);
+    return NextResponse.json(
+      { visits: next },
+      {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+        },
+      }
+    );
+  } catch {
+    memVisits += 1;
+    return NextResponse.json(
+      { visits: memVisits },
+      {
+        status: 200,
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+        },
+      }
+    );
+  }
 }

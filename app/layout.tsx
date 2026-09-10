@@ -24,6 +24,7 @@ const lilitaOne = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://pandly.app"),
   title: "Pandly — Tu espacio para rolear, conectar y vivir la pantalla juntos",
   description:
     "Salas de cine sincronizadas, chats de voz interactivos y círculos donde tu identidad cobra vida.",

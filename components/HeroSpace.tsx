@@ -1,8 +1,8 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useRef, useState } from "react";
 import { Sparkles, ArrowRight, Film, Flame } from "lucide-react";
-import { useLiquidEngine, solveSpring, SPRING_PRESETS } from "../hooks/useLiquidEngine";
+import { useLiquidEngine, solveSpring, SPRING_PRESETS, kineticScrollTo } from "../hooks/useLiquidEngine";
 
 /**
  * HeroSpace
@@ -273,7 +273,7 @@ export function HeroSpace() {
   const handleCanvasClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!canvasRef.current) return;
     const rect = canvasRef.current.getBoundingClientRect();
-    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const dpr = typeof window !== "undefined" ? Math.min(2, window.devicePixelRatio || 1) : 1;
     const x = (e.clientX - rect.left) * dpr;
     const y = (e.clientY - rect.top) * dpr;
 
@@ -291,10 +291,7 @@ export function HeroSpace() {
     ctaSpringRef.current.velocity = -3.2;
     ctaSpringRef.current.target = 1.0;
 
-    const feedEl = document.getElementById("feed");
-    if (feedEl) {
-      feedEl.scrollIntoView({ behavior: "smooth" });
-    }
+    kineticScrollTo("features", 70);
   };
 
   return (
@@ -308,11 +305,12 @@ export function HeroSpace() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        padding: "110px 20px 80px 20px",
+        padding: "120px 24px 90px 24px",
         overflow: "hidden",
         zIndex: 10,
       }}
     >
+      {/* 2.5D Optical Refraction & Inertial Canvas Backing */}
       <div
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
@@ -344,78 +342,150 @@ export function HeroSpace() {
             display: "block",
           }}
         />
-
-        <div
-          style={{
-            position: "absolute",
-            top: 24,
-            right: 28,
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            padding: "8px 16px",
-            borderRadius: 999,
-            background: "rgba(18, 20, 24, 0.75)",
-            backdropFilter: "blur(20px)",
-            border: "1px solid rgba(255, 255, 255, 0.12)",
-            fontSize: 12,
-            fontFamily: "var(--font-dyna-puff)",
-            color: "#FFF",
-            pointerEvents: "none",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
-          }}
-        >
-          <span
-            style={{
-              width: 8,
-              height: 8,
-              borderRadius: "50%",
-              backgroundColor: "#06D6A0",
-              boxShadow: "0 0 12px #06D6A0",
-              animation: "pulse 2s infinite ease-in-out",
-            }}
-          />
-          <span>2,480 en Watch Parties & Rol en Vivo</span>
-        </div>
-
-        <div
-          style={{
-            position: "absolute",
-            bottom: 30,
-            left: 32,
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-            padding: "10px 18px",
-            borderRadius: 24,
-            background: "rgba(23, 25, 29, 0.75)",
-            backdropFilter: "blur(24px)",
-            border: "1px solid rgba(230, 83, 60, 0.35)",
-            boxShadow: "0 14px 32px rgba(0,0,0,0.6)",
-            pointerEvents: "none",
-          }}
-        >
-          <img
-            src="/assets/images/Panda_Head.png"
-            alt="Panda Avatar"
-            style={{
-              width: 44,
-              height: 44,
-              objectFit: "contain",
-              filter: "drop-shadow(0 4px 12px rgba(230, 83, 60, 0.5))",
-            }}
-          />
-          <div>
-            <div style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 14, color: "#FFF" }}>
-              Avatar 2.5D Reactivo
-            </div>
-            <div style={{ fontFamily: "var(--font-lilita-one)", fontSize: 11, color: "#FF6A4D" }}>
-              Audio Espacial • 523 Living Stickers
-            </div>
-          </div>
-        </div>
       </div>
 
+      {/* Orbital Lateral Floats Keyframes & Responsive Rules */}
+      <style>{`
+        @keyframes pandlyOrbitalLeft {
+          0%, 100% {
+            transform: translateY(-50%) rotate(0deg);
+          }
+          50% {
+            transform: translateY(calc(-50% - 14px)) rotate(-1.5deg);
+          }
+        }
+        @keyframes pandlyOrbitalRight {
+          0%, 100% {
+            transform: translateY(-50%) rotate(0deg);
+          }
+          50% {
+            transform: translateY(calc(-50% + 14px)) rotate(1.5deg);
+          }
+        }
+        @media (max-width: 1100px) {
+          .pandly-orbital-widget {
+            display: none !important;
+          }
+        }
+      `}</style>
+
+      {/* Left Orbital Capsule: Avatar 2.5D Reactivo */}
+      <aside
+        className="pandly-orbital-widget pandly-orbital-left"
+        aria-label="Avatar 2.5D y Audio Espacial"
+        style={{
+          position: "absolute",
+          left: "clamp(20px, 4vw, 64px)",
+          top: "46%",
+          transform: "translateY(-50%)",
+          zIndex: 25,
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          padding: "12px 20px",
+          borderRadius: 24,
+          background: "rgba(18, 20, 24, 0.78)",
+          backdropFilter: "blur(24px)",
+          border: "1px solid rgba(255, 106, 77, 0.35)",
+          boxShadow: "0 18px 44px -8px rgba(0, 0, 0, 0.8), 0 0 24px -4px rgba(230, 83, 60, 0.25)",
+          animation: "pandlyOrbitalLeft 6.5s ease-in-out infinite",
+          pointerEvents: "auto",
+          cursor: "default",
+          userSelect: "none",
+          transition: "border-color 0.25s ease, box-shadow 0.25s ease",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = "rgba(255, 106, 77, 0.65)";
+          e.currentTarget.style.boxShadow =
+            "0 22px 52px -6px rgba(0, 0, 0, 0.9), 0 0 32px -2px rgba(230, 83, 60, 0.4)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = "rgba(255, 106, 77, 0.35)";
+          e.currentTarget.style.boxShadow =
+            "0 18px 44px -8px rgba(0, 0, 0, 0.8), 0 0 24px -4px rgba(230, 83, 60, 0.25)";
+        }}
+      >
+        <img
+          src="/assets/images/Panda_Head.png"
+          alt="Panda Avatar"
+          style={{
+            width: 44,
+            height: 44,
+            objectFit: "contain",
+            filter: "drop-shadow(0 4px 14px rgba(230, 83, 60, 0.55))",
+          }}
+        />
+        <div>
+          <div style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 13, color: "#FFF", fontWeight: 600 }}>
+            Avatar 2.5D Reactivo
+          </div>
+          <div style={{ fontFamily: "var(--font-lilita-one)", fontSize: 11, color: "#FF6A4D" }}>
+            Audio Espacial • 523 Living Stickers
+          </div>
+        </div>
+      </aside>
+
+      {/* Right Orbital Capsule: Presencia en Vivo */}
+      <aside
+        className="pandly-orbital-widget pandly-orbital-right"
+        aria-label="Usuarios Activos en Vivo"
+        style={{
+          position: "absolute",
+          right: "clamp(20px, 4vw, 64px)",
+          top: "40%",
+          transform: "translateY(-50%)",
+          zIndex: 25,
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          padding: "10px 20px",
+          borderRadius: 999,
+          background: "rgba(18, 20, 24, 0.78)",
+          backdropFilter: "blur(24px)",
+          border: "1px solid rgba(255, 255, 255, 0.14)",
+          boxShadow: "0 18px 44px -8px rgba(0, 0, 0, 0.8), 0 0 24px -4px rgba(6, 214, 160, 0.2)",
+          animation: "pandlyOrbitalRight 7.5s ease-in-out infinite 0.9s",
+          pointerEvents: "auto",
+          cursor: "default",
+          userSelect: "none",
+          transition: "border-color 0.25s ease, box-shadow 0.25s ease",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = "rgba(6, 214, 160, 0.5)";
+          e.currentTarget.style.boxShadow =
+            "0 22px 52px -6px rgba(0, 0, 0, 0.9), 0 0 32px -2px rgba(6, 214, 160, 0.35)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.14)";
+          e.currentTarget.style.boxShadow =
+            "0 18px 44px -8px rgba(0, 0, 0, 0.8), 0 0 24px -4px rgba(6, 214, 160, 0.2)";
+        }}
+      >
+        <span
+          style={{
+            width: 9,
+            height: 9,
+            borderRadius: "50%",
+            backgroundColor: "#06D6A0",
+            boxShadow: "0 0 12px #06D6A0",
+            display: "inline-block",
+            animation: "pulse 2s infinite ease-in-out",
+          }}
+        />
+        <span
+          style={{
+            fontFamily: "var(--font-dyna-puff)",
+            fontSize: 12,
+            color: "#FFFFFF",
+            fontWeight: 500,
+            letterSpacing: "0.01em",
+          }}
+        >
+          2,480 en Watch Parties & Rol en Vivo
+        </span>
+      </aside>
+
+      {/* Central Hero Stage (Unobstructed, Air & Clarity) */}
       <div
         style={{
           position: "relative",
@@ -425,36 +495,41 @@ export function HeroSpace() {
           marginTop: "auto",
           marginBottom: "auto",
           pointerEvents: "auto",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
+        {/* Superior Badge */}
         <div
           style={{
             display: "inline-flex",
             alignItems: "center",
             gap: 8,
-            padding: "8px 20px",
+            padding: "8px 22px",
             borderRadius: 999,
-            background: "rgba(230, 83, 60, 0.15)",
-            border: "1px solid rgba(255, 106, 77, 0.35)",
+            background: "rgba(230, 83, 60, 0.14)",
+            border: "1px solid rgba(255, 106, 77, 0.38)",
             color: "#FF6A4D",
             fontFamily: "var(--font-dyna-puff)",
             fontSize: 13,
             fontWeight: 600,
-            marginBottom: 20,
-            boxShadow: "0 0 24px rgba(230, 83, 60, 0.25)",
+            marginBottom: 24,
+            boxShadow: "0 0 28px rgba(230, 83, 60, 0.22)",
           }}
         >
           <Flame size={16} />
           <span>La nueva dimensión de interacción social</span>
         </div>
 
+        {/* Display Headline */}
         <h1
           style={{
             fontFamily: "var(--font-dyna-puff), cursive",
-            fontSize: "clamp(2.3rem, 6.2vw, 4.8rem)",
+            fontSize: "clamp(2.4rem, 6.4vw, 4.8rem)",
             fontWeight: 700,
             lineHeight: 1.1,
-            margin: "0 0 20px 0",
+            margin: "0 0 22px 0",
             color: "#FFFFFF",
             WebkitTextStroke: "1.5px rgba(255, 255, 255, 0.85)",
             textShadow: `
@@ -477,6 +552,7 @@ export function HeroSpace() {
           </span>
         </h1>
 
+        {/* Subtitle */}
         <p
           style={{
             fontFamily: "var(--font-lilita-one), sans-serif",
@@ -484,13 +560,14 @@ export function HeroSpace() {
             lineHeight: 1.6,
             color: "#A9B0BC",
             maxWidth: 680,
-            margin: "0 auto 36px auto",
+            margin: "0 auto 40px auto",
             textShadow: "0 2px 8px rgba(0,0,0,0.8)",
           }}
         >
           Salas de cine sincronizadas, chats de voz interactivos y círculos donde tu identidad cobra vida.
         </p>
 
+        {/* CTAs */}
         <div
           style={{
             display: "flex",
@@ -539,8 +616,7 @@ export function HeroSpace() {
 
           <button
             onClick={() => {
-              const chatsEl = document.getElementById("chats");
-              if (chatsEl) chatsEl.scrollIntoView({ behavior: "smooth" });
+              kineticScrollTo("chats", 70);
             }}
             style={{
               display: "flex",

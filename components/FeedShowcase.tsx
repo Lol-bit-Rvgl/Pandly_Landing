@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Grid, Film, Smartphone, BookOpen, Heart, MessageCircle, Share2, Sparkles } from "lucide-react";
@@ -130,7 +130,7 @@ export function FeedShowcase() {
       ref={cardContainerRef}
       style={{
         position: "relative",
-        padding: "120px 20px",
+        padding: "clamp(120px, 16vh, 220px) 20px",
         minHeight: "100dvh",
         background: "linear-gradient(180deg, #000000 0%, #101216 50%, #000000 100%)",
         display: "flex",
@@ -138,9 +138,26 @@ export function FeedShowcase() {
         alignItems: "center",
         justifyContent: "center",
         zIndex: 15,
+        overflow: "hidden",
       }}
     >
-      <div style={{ textAlign: "center", maxWidth: 760, marginBottom: 44 }}>
+      {/* Ambient radial glow vignette */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -45%)",
+          width: "min(120vw, 900px)",
+          height: "min(90vw, 700px)",
+          background: "radial-gradient(circle at center, rgba(255, 106, 77, 0.09) 0%, rgba(230, 83, 60, 0.03) 45%, transparent 70%)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+
+      <div style={{ textAlign: "center", maxWidth: 760, marginBottom: 44, position: "relative", zIndex: 1 }}>
         <div
           style={{
             display: "inline-flex",
@@ -196,9 +213,11 @@ export function FeedShowcase() {
           background: "rgba(23, 25, 29, 0.8)",
           backdropFilter: "blur(20px)",
           border: "1px solid rgba(255, 255, 255, 0.1)",
-          marginBottom: 40,
+          marginBottom: "clamp(40px, 6vw, 64px)",
           flexWrap: "wrap",
           justifyContent: "center",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         {FORMATS.map((fmt) => {
@@ -242,9 +261,11 @@ export function FeedShowcase() {
       <div
         style={{
           perspective: 1200,
-          width: "min(94vw, 560px)",
+          width: "min(94vw, 640px)",
           display: "flex",
           justifyContent: "center",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         <div

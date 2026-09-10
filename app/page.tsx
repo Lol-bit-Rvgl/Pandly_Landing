@@ -1,28 +1,23 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import { GlassCanvas } from "./GlassCanvas";
+import { TopProgressHeader } from "../components/TopProgressHeader";
 import { HeroSpace } from "../components/HeroSpace";
 import { FeedShowcase } from "../components/FeedShowcase";
 import { ReactionPicker } from "../components/ReactionPicker";
-import { LiquidDock } from "../components/LiquidDock";
 import { PhysicsInspector } from "../components/PhysicsInspector";
+import { CommunitySection } from "../components/CommunitySection";
+import { Footer } from "../components/Footer";
 import {
   Sparkles,
   Compass,
-  Flame,
-  Users,
   Film,
   Mic,
   Smile,
-  Shield,
-  Heart,
-  ArrowRight,
-  Tv,
   Gamepad2,
   Wand2,
   Headphones,
-  CheckCircle2,
 } from "lucide-react";
 
 export default function Home() {
@@ -40,30 +35,46 @@ export default function Home() {
       {/* Background Liquid Glass Engine Canvas */}
       <GlassCanvas />
 
+      {/* Persistent Zero-Reflow Top Progress Header */}
+      <TopProgressHeader />
+
       {/* Optional Minimalist Easter Egg HUD */}
       <PhysicsInspector />
 
-      {/* 1. HERO SECTION ("Tu espacio para rolear y conectar") */}
+      {/* 1. HERO SECTION (id="home") */}
       <HeroSpace />
 
-      {/* 2. THE 5 CORE PILLARS / CARACTERÍSTICAS PRINCIPALES */}
-      <section
+      {/* Vignette Transition Hero -> Features */}
+      <div
+        aria-hidden="true"
         style={{
           position: "relative",
-          padding: "80px 20px 100px 20px",
+          width: "100%",
+          height: "1px",
+          background: "radial-gradient(ellipse at 50% 50%, rgba(230, 83, 60, 0.28) 0%, transparent 75%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* 2. THE 5 CORE PILLARS / BENTO ASIMÉTRICO (id="features") */}
+      <section
+        id="features"
+        style={{
+          position: "relative",
+          padding: "clamp(100px, 14vh, 180px) 24px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           zIndex: 10,
         }}
       >
-        <div style={{ textAlign: "center", maxWidth: 780, marginBottom: 52 }}>
+        <div style={{ textAlign: "center", maxWidth: 780, marginBottom: "clamp(48px, 6vw, 72px)" }}>
           <div
             style={{
               display: "inline-flex",
               alignItems: "center",
               gap: 8,
-              padding: "6px 16px",
+              padding: "6px 18px",
               borderRadius: 999,
               background: "rgba(255, 106, 77, 0.12)",
               border: "1px solid rgba(255, 106, 77, 0.3)",
@@ -80,7 +91,7 @@ export default function Home() {
           <h2
             style={{
               fontFamily: "var(--font-dyna-puff), cursive",
-              fontSize: "clamp(2.1rem, 4.4vw, 3.4rem)",
+              fontSize: "clamp(2.1rem, 4.4vw, 3.6rem)",
               fontWeight: 700,
               margin: "0 0 16px 0",
               color: "#FFFFFF",
@@ -93,7 +104,7 @@ export default function Home() {
           <p
             style={{
               fontFamily: "var(--font-lilita-one), sans-serif",
-              fontSize: "clamp(1rem, 2vw, 1.2rem)",
+              fontSize: "clamp(1rem, 2vw, 1.25rem)",
               color: "#A9B0BC",
               margin: 0,
               lineHeight: 1.6,
@@ -103,254 +114,370 @@ export default function Home() {
           </p>
         </div>
 
-        {/* 5 Core Feature Cards Grid */}
+        {/* Asymmetric Bento Cadence */}
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(310px, 1fr))",
-            gap: 20,
-            width: "min(94vw, 1120px)",
+            display: "flex",
+            flexDirection: "column",
+            gap: 24,
+            width: "min(94vw, 1140px)",
           }}
         >
-          {/* Card 1: Roleplay Rooms */}
+          {/* Row 1: Spotlight Full-Width (Roleplay Rooms & Mundos Vivos) */}
           <div
             style={{
               position: "relative",
-              borderRadius: 28,
-              padding: "32px 28px",
-              background: "rgba(18, 20, 24, 0.75)",
+              borderRadius: 32,
+              padding: "clamp(32px, 4vw, 48px)",
+              background: "radial-gradient(ellipse at top right, rgba(255, 106, 77, 0.12) 0%, rgba(18, 20, 24, 0.85) 70%)",
               backdropFilter: "blur(24px)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              boxShadow: "0 16px 40px -12px rgba(0,0,0,0.8)",
+              border: "1px solid rgba(255, 106, 77, 0.3)",
+              boxShadow: "0 24px 60px -16px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.05) inset",
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: 32,
+              alignItems: "center",
+              overflow: "hidden",
               transition: "transform 0.25s ease, border-color 0.25s ease",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-6px)";
-              e.currentTarget.style.borderColor = "rgba(255, 106, 77, 0.4)";
+              e.currentTarget.style.transform = "translateY(-4px)";
+              e.currentTarget.style.borderColor = "rgba(255, 106, 77, 0.55)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
+              e.currentTarget.style.borderColor = "rgba(255, 106, 77, 0.3)";
             }}
           >
-            <div
-              style={{
-                width: 52,
-                height: 52,
-                borderRadius: 18,
-                background: "linear-gradient(135deg, #FF6A4D 0%, #E6533C 100%)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: 20,
-                boxShadow: "0 8px 24px rgba(230, 83, 60, 0.4)",
-              }}
-            >
-              <Gamepad2 size={26} color="#FFF" />
+            <div>
+              <div
+                style={{
+                  width: 54,
+                  height: 54,
+                  borderRadius: 18,
+                  background: "linear-gradient(135deg, #FF6A4D 0%, #E6533C 100%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 20,
+                  boxShadow: "0 8px 24px rgba(230, 83, 60, 0.45)",
+                }}
+              >
+                <Gamepad2 size={28} color="#FFF" />
+              </div>
+
+              <div
+                style={{
+                  display: "inline-block",
+                  fontSize: 11,
+                  fontFamily: "var(--font-dyna-puff)",
+                  padding: "4px 10px",
+                  borderRadius: 8,
+                  background: "rgba(230, 83, 60, 0.2)",
+                  color: "#FF6A4D",
+                  marginBottom: 10,
+                }}
+              >
+                EXPERIENCIA ESTRELLA
+              </div>
+
+              <h3
+                style={{
+                  fontFamily: "var(--font-dyna-puff)",
+                  fontSize: "clamp(1.6rem, 2.8vw, 2.2rem)",
+                  margin: "0 0 14px 0",
+                  color: "#FFF",
+                  lineHeight: 1.2,
+                }}
+              >
+                🎭 Roleplay Rooms & Espacios Vivos
+              </h3>
+
+              <p
+                style={{
+                  fontFamily: "var(--font-lilita-one)",
+                  fontSize: 15,
+                  color: "#A9B0BC",
+                  lineHeight: 1.65,
+                  margin: "0 0 24px 0",
+                  maxWidth: 520,
+                }}
+              >
+                Crea mundos interactivos con físicas de resorte en tiempo real, personaliza tu avatar con profundidad 2.5D y rolea en escenarios dinámicos con tus amigos sin límites.
+              </p>
+
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                <span style={{ fontSize: 12, padding: "5px 12px", borderRadius: 999, background: "rgba(255, 255, 255, 0.06)", color: "#FFF", fontFamily: "var(--font-dyna-puff)" }}>
+                  #Fantasía
+                </span>
+                <span style={{ fontSize: 12, padding: "5px 12px", borderRadius: 999, background: "rgba(255, 255, 255, 0.06)", color: "#FFF", fontFamily: "var(--font-dyna-puff)" }}>
+                  #Cyberpunk
+                </span>
+                <span style={{ fontSize: 12, padding: "5px 12px", borderRadius: 999, background: "rgba(255, 255, 255, 0.06)", color: "#FFF", fontFamily: "var(--font-dyna-puff)" }}>
+                  #AnimeLive
+                </span>
+              </div>
             </div>
 
-            <h3 style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 20, margin: "0 0 10px 0", color: "#FFF" }}>
-              🎭 Roleplay Rooms & Espacios Vivos
-            </h3>
-
-            <p style={{ fontFamily: "var(--font-lilita-one)", fontSize: 14, color: "#A9B0BC", lineHeight: 1.6, margin: 0 }}>
-              Crea mundos interactivos, personaliza tu avatar y rolea en escenarios dinámicos en tiempo real con tus amigos.
-            </p>
+            <div
+              style={{
+                position: "relative",
+                borderRadius: 24,
+                overflow: "hidden",
+                border: "1px solid rgba(255, 255, 255, 0.12)",
+                background: "rgba(10, 11, 14, 0.7)",
+                padding: "24px 20px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: 220,
+              }}
+            >
+              <img
+                src="/assets/images/Panda_Head.png"
+                alt="Panda Avatar"
+                style={{
+                  width: 88,
+                  height: 88,
+                  objectFit: "contain",
+                  filter: "drop-shadow(0 10px 24px rgba(230, 83, 60, 0.5))",
+                  marginBottom: 12,
+                }}
+              />
+              <div style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 14, color: "#FFF" }}>
+                Sala: Academia Estelar #1
+              </div>
+              <div style={{ fontFamily: "var(--font-lilita-one)", fontSize: 12, color: "#06D6A0", marginTop: 4 }}>
+                ● 14 roleplayers activos en vivo
+              </div>
+            </div>
           </div>
 
-          {/* Card 2: Watch Parties */}
+          {/* Row 2: Symmetric Duo (Watch Parties + Voice Lounges) */}
           <div
             style={{
-              position: "relative",
-              borderRadius: 28,
-              padding: "32px 28px",
-              background: "rgba(18, 20, 24, 0.75)",
-              backdropFilter: "blur(24px)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              boxShadow: "0 16px 40px -12px rgba(0,0,0,0.8)",
-              transition: "transform 0.25s ease, border-color 0.25s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-6px)";
-              e.currentTarget.style.borderColor = "rgba(255, 106, 77, 0.4)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+              gap: 24,
+              width: "100%",
             }}
           >
+            {/* Card: Watch Parties */}
             <div
               style={{
-                width: 52,
-                height: 52,
-                borderRadius: 18,
-                background: "linear-gradient(135deg, #FF4D6D 0%, #C63D2F 100%)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: 20,
-                boxShadow: "0 8px 24px rgba(255, 77, 109, 0.35)",
+                position: "relative",
+                borderRadius: 28,
+                padding: "36px 30px",
+                background: "rgba(18, 20, 24, 0.75)",
+                backdropFilter: "blur(24px)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                boxShadow: "0 16px 40px -12px rgba(0,0,0,0.8)",
+                transition: "transform 0.25s ease, border-color 0.25s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-4px)";
+                e.currentTarget.style.borderColor = "rgba(255, 77, 109, 0.5)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
               }}
             >
-              <Film size={26} color="#FFF" />
+              <div
+                style={{
+                  width: 52,
+                  height: 52,
+                  borderRadius: 18,
+                  background: "linear-gradient(135deg, #FF4D6D 0%, #C63D2F 100%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 20,
+                  boxShadow: "0 8px 24px rgba(255, 77, 109, 0.35)",
+                }}
+              >
+                <Film size={26} color="#FFF" />
+              </div>
+
+              <h3 style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 21, margin: "0 0 12px 0", color: "#FFF" }}>
+                🍿 Salas de Cine Compartidas
+              </h3>
+
+              <p style={{ fontFamily: "var(--font-lilita-one)", fontSize: 14, color: "#A9B0BC", lineHeight: 1.6, margin: 0 }}>
+                Mira series, videos y películas juntos con audio sincronizado al milisegundo y reacciones que explotan en pantalla en tiempo real.
+              </p>
             </div>
 
-            <h3 style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 20, margin: "0 0 10px 0", color: "#FFF" }}>
-              🍿 Salas de Cine Compartidas
-            </h3>
+            {/* Card: Voice Lounges */}
+            <div
+              style={{
+                position: "relative",
+                borderRadius: 28,
+                padding: "36px 30px",
+                background: "rgba(18, 20, 24, 0.75)",
+                backdropFilter: "blur(24px)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                boxShadow: "0 16px 40px -12px rgba(0,0,0,0.8)",
+                transition: "transform 0.25s ease, border-color 0.25s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-4px)";
+                e.currentTarget.style.borderColor = "rgba(6, 214, 160, 0.5)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
+              }}
+            >
+              <div
+                style={{
+                  width: 52,
+                  height: 52,
+                  borderRadius: 18,
+                  background: "linear-gradient(135deg, #06D6A0 0%, #059669 100%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 20,
+                  boxShadow: "0 8px 24px rgba(6, 214, 160, 0.35)",
+                }}
+              >
+                <Headphones size={26} color="#FFF" />
+              </div>
 
-            <p style={{ fontFamily: "var(--font-lilita-one)", fontSize: 14, color: "#A9B0BC", lineHeight: 1.6, margin: 0 }}>
-              Mira series, videos y películas juntos con audio sincronizado al milisegundo y reacciones que explotan en pantalla.
-            </p>
+              <h3 style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 21, margin: "0 0 12px 0", color: "#FFF" }}>
+                🎙️ Voice Lounges con Audio Espacial
+              </h3>
+
+              <p style={{ fontFamily: "var(--font-lilita-one)", fontSize: 14, color: "#A9B0BC", lineHeight: 1.6, margin: 0 }}>
+                Salta a salas de voz espontáneas con sonido envolvente y micro-interacciones táctiles mientras navegas por tus círculos.
+              </p>
+            </div>
           </div>
 
-          {/* Card 3: Voice Lounges */}
+          {/* Row 3: Community Duo (Círculos & Living Stickers) */}
           <div
             style={{
-              position: "relative",
-              borderRadius: 28,
-              padding: "32px 28px",
-              background: "rgba(18, 20, 24, 0.75)",
-              backdropFilter: "blur(24px)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              boxShadow: "0 16px 40px -12px rgba(0,0,0,0.8)",
-              transition: "transform 0.25s ease, border-color 0.25s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-6px)";
-              e.currentTarget.style.borderColor = "rgba(255, 106, 77, 0.4)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+              gap: 24,
+              width: "100%",
             }}
           >
+            {/* Card: Círculos */}
             <div
               style={{
-                width: 52,
-                height: 52,
-                borderRadius: 18,
-                background: "linear-gradient(135deg, #06D6A0 0%, #059669 100%)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: 20,
-                boxShadow: "0 8px 24px rgba(6, 214, 160, 0.35)",
+                position: "relative",
+                borderRadius: 28,
+                padding: "36px 30px",
+                background: "rgba(18, 20, 24, 0.75)",
+                backdropFilter: "blur(24px)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                boxShadow: "0 16px 40px -12px rgba(0,0,0,0.8)",
+                transition: "transform 0.25s ease, border-color 0.25s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-4px)";
+                e.currentTarget.style.borderColor = "rgba(240, 138, 91, 0.5)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
               }}
             >
-              <Headphones size={26} color="#FFF" />
+              <div
+                style={{
+                  width: 52,
+                  height: 52,
+                  borderRadius: 18,
+                  background: "linear-gradient(135deg, #F08A5B 0%, #E6533C 100%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 20,
+                  boxShadow: "0 8px 24px rgba(240, 138, 91, 0.35)",
+                }}
+              >
+                <Compass size={26} color="#FFF" />
+              </div>
+
+              <h3 style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 21, margin: "0 0 12px 0", color: "#FFF" }}>
+                ⭕ Círculos & Comunidades
+              </h3>
+
+              <p style={{ fontFamily: "var(--font-lilita-one)", fontSize: 14, color: "#A9B0BC", lineHeight: 1.6, margin: 0 }}>
+                Encuentra tribus dedicadas a tus intereses, fandoms, gaming y creación de contenido sin algoritmos tóxicos ni muros de pago.
+              </p>
             </div>
 
-            <h3 style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 20, margin: "0 0 10px 0", color: "#FFF" }}>
-              🎙️ Voice Lounges con Audio Espacial
-            </h3>
-
-            <p style={{ fontFamily: "var(--font-lilita-one)", fontSize: 14, color: "#A9B0BC", lineHeight: 1.6, margin: 0 }}>
-              Salta a salas de voz espontáneas con sonido envolvente y micro-interacciones táctiles mientras navegas.
-            </p>
-          </div>
-
-          {/* Card 4: Círculos y Comunidades */}
-          <div
-            style={{
-              position: "relative",
-              borderRadius: 28,
-              padding: "32px 28px",
-              background: "rgba(18, 20, 24, 0.75)",
-              backdropFilter: "blur(24px)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              boxShadow: "0 16px 40px -12px rgba(0,0,0,0.8)",
-              transition: "transform 0.25s ease, border-color 0.25s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-6px)";
-              e.currentTarget.style.borderColor = "rgba(255, 106, 77, 0.4)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
-            }}
-          >
+            {/* Card: 523 Living Stickers */}
             <div
               style={{
-                width: 52,
-                height: 52,
-                borderRadius: 18,
-                background: "linear-gradient(135deg, #F08A5B 0%, #E6533C 100%)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: 20,
-                boxShadow: "0 8px 24px rgba(240, 138, 91, 0.35)",
+                position: "relative",
+                borderRadius: 28,
+                padding: "36px 30px",
+                background: "rgba(18, 20, 24, 0.75)",
+                backdropFilter: "blur(24px)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                boxShadow: "0 16px 40px -12px rgba(0,0,0,0.8)",
+                transition: "transform 0.25s ease, border-color 0.25s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-4px)";
+                e.currentTarget.style.borderColor = "rgba(255, 209, 102, 0.5)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
               }}
             >
-              <Compass size={26} color="#FFF" />
+              <div
+                style={{
+                  width: 52,
+                  height: 52,
+                  borderRadius: 18,
+                  background: "linear-gradient(135deg, #FFD166 0%, #F08A5B 100%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 20,
+                  boxShadow: "0 8px 24px rgba(255, 209, 102, 0.35)",
+                }}
+              >
+                <Smile size={26} color="#000" />
+              </div>
+
+              <h3 style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 21, margin: "0 0 12px 0", color: "#FFF" }}>
+                ✨ 523 Living Stickers Táctiles
+              </h3>
+
+              <p style={{ fontFamily: "var(--font-lilita-one)", fontSize: 14, color: "#A9B0BC", lineHeight: 1.6, margin: 0 }}>
+                Exprésate con stickers que reaccionan al tacto, vibran y tienen peso físico real al deslizarse por la pantalla con resortes P3.
+              </p>
             </div>
-
-            <h3 style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 20, margin: "0 0 10px 0", color: "#FFF" }}>
-              ⭕ Círculos & Comunidades
-            </h3>
-
-            <p style={{ fontFamily: "var(--font-lilita-one)", fontSize: 14, color: "#A9B0BC", lineHeight: 1.6, margin: 0 }}>
-              Encuentra tribus dedicadas a tus intereses, fandoms, gaming y creación de contenido sin algoritmos tóxicos.
-            </p>
-          </div>
-
-          {/* Card 5: 523 Living Stickers */}
-          <div
-            style={{
-              position: "relative",
-              borderRadius: 28,
-              padding: "32px 28px",
-              background: "rgba(18, 20, 24, 0.75)",
-              backdropFilter: "blur(24px)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              boxShadow: "0 16px 40px -12px rgba(0,0,0,0.8)",
-              transition: "transform 0.25s ease, border-color 0.25s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-6px)";
-              e.currentTarget.style.borderColor = "rgba(255, 106, 77, 0.4)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
-            }}
-          >
-            <div
-              style={{
-                width: 52,
-                height: 52,
-                borderRadius: 18,
-                background: "linear-gradient(135deg, #FFD166 0%, #F08A5B 100%)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: 20,
-                boxShadow: "0 8px 24px rgba(255, 209, 102, 0.35)",
-              }}
-            >
-              <Smile size={26} color="#000" />
-            </div>
-
-            <h3 style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 20, margin: "0 0 10px 0", color: "#FFF" }}>
-              ✨ 523 Living Stickers Táctiles
-            </h3>
-
-            <p style={{ fontFamily: "var(--font-lilita-one)", fontSize: 14, color: "#A9B0BC", lineHeight: 1.6, margin: 0 }}>
-              Exprésate con stickers que reaccionan al tacto, vibran y tienen peso físico real al deslizarse por la pantalla.
-            </p>
           </div>
         </div>
       </section>
 
-      {/* 3. CIRCLES SHOWCASE SECTION */}
+      {/* Vignette Transition Features -> Circles */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "relative",
+          width: "100%",
+          height: "1px",
+          background: "radial-gradient(ellipse at 50% 50%, rgba(230, 83, 60, 0.22) 0%, transparent 75%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* 3. CIRCLES SHOWCASE SECTION (id="circles") */}
       <section
         id="circles"
         style={{
           position: "relative",
-          padding: "90px 20px",
-          minHeight: "80vh",
+          padding: "clamp(110px, 15vh, 200px) 24px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -358,13 +485,13 @@ export default function Home() {
           zIndex: 10,
         }}
       >
-        <div style={{ textAlign: "center", maxWidth: 760, marginBottom: 48 }}>
+        <div style={{ textAlign: "center", maxWidth: 760, marginBottom: "clamp(48px, 6vw, 68px)" }}>
           <div
             style={{
               display: "inline-flex",
               alignItems: "center",
               gap: 8,
-              padding: "6px 16px",
+              padding: "6px 18px",
               borderRadius: 999,
               background: "rgba(230, 83, 60, 0.12)",
               border: "1px solid rgba(255, 106, 77, 0.25)",
@@ -381,7 +508,7 @@ export default function Home() {
           <h2
             style={{
               fontFamily: "var(--font-dyna-puff), cursive",
-              fontSize: "clamp(2rem, 4.2vw, 3.2rem)",
+              fontSize: "clamp(2rem, 4.2vw, 3.4rem)",
               fontWeight: 700,
               margin: "0 0 16px 0",
               color: "#FFFFFF",
@@ -393,7 +520,7 @@ export default function Home() {
           <p
             style={{
               fontFamily: "var(--font-lilita-one), sans-serif",
-              fontSize: "clamp(0.95rem, 1.8vw, 1.15rem)",
+              fontSize: "clamp(0.95rem, 1.8vw, 1.2rem)",
               color: "#A9B0BC",
               margin: 0,
             }}
@@ -406,9 +533,9 @@ export default function Home() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: 20,
-            width: "min(94vw, 1040px)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            gap: 24,
+            width: "min(94vw, 1140px)",
           }}
         >
           {[
@@ -438,7 +565,7 @@ export default function Home() {
               key={idx}
               style={{
                 position: "relative",
-                borderRadius: 24,
+                borderRadius: 26,
                 overflow: "hidden",
                 background: "rgba(18, 20, 24, 0.75)",
                 backdropFilter: "blur(20px)",
@@ -456,7 +583,7 @@ export default function Home() {
                 e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
               }}
             >
-              <div style={{ height: 170, overflow: "hidden", position: "relative" }}>
+              <div style={{ height: 180, overflow: "hidden", position: "relative" }}>
                 <img
                   src={circle.image}
                   alt={circle.title}
@@ -481,11 +608,11 @@ export default function Home() {
                 </span>
               </div>
 
-              <div style={{ padding: 22 }}>
+              <div style={{ padding: 24 }}>
                 <h3
                   style={{
                     fontFamily: "var(--font-dyna-puff)",
-                    fontSize: 19,
+                    fontSize: 20,
                     margin: "0 0 6px 0",
                     color: "#FFF",
                   }}
@@ -507,7 +634,7 @@ export default function Home() {
                     fontFamily: "var(--font-lilita-one)",
                     fontSize: 13,
                     color: "rgba(255, 255, 255, 0.65)",
-                    lineHeight: 1.5,
+                    lineHeight: 1.55,
                     margin: 0,
                   }}
                 >
@@ -519,7 +646,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. PRODUCT FEED SHOWCASE (4 Formatos) */}
+      {/* 4. PRODUCT FEED SHOWCASE (id="feed") */}
       <FeedShowcase />
 
       {/* 5. FLOATING LIVING REACTION PICKER DEMO */}
@@ -527,8 +654,8 @@ export default function Home() {
         style={{
           position: "relative",
           zIndex: 20,
-          marginTop: -30,
-          marginBottom: 80,
+          marginTop: "-20px",
+          marginBottom: "clamp(60px, 10vh, 120px)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -551,13 +678,12 @@ export default function Home() {
         <ReactionPicker />
       </div>
 
-      {/* 6. CREATE / STICKER & ROOM STUDIO */}
+      {/* 6. CREATE / STICKER & ROOM STUDIO (id="create") */}
       <section
         id="create"
         style={{
           position: "relative",
-          padding: "90px 20px",
-          minHeight: "75vh",
+          padding: "clamp(100px, 14vh, 180px) 24px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -567,9 +693,9 @@ export default function Home() {
       >
         <div
           style={{
-            width: "min(94vw, 920px)",
-            borderRadius: 32,
-            padding: "52px 36px",
+            width: "min(94vw, 960px)",
+            borderRadius: 36,
+            padding: "clamp(44px, 5vw, 68px) clamp(24px, 4vw, 52px)",
             background: "radial-gradient(ellipse at top, rgba(230, 83, 60, 0.18) 0%, rgba(18, 20, 24, 0.88) 100%)",
             backdropFilter: "blur(24px)",
             border: "1px solid rgba(255, 106, 77, 0.35)",
@@ -598,7 +724,7 @@ export default function Home() {
           <h2
             style={{
               fontFamily: "var(--font-dyna-puff)",
-              fontSize: "clamp(2rem, 3.8vw, 3rem)",
+              fontSize: "clamp(2rem, 3.8vw, 3.2rem)",
               margin: "0 0 16px 0",
               color: "#FFF",
             }}
@@ -641,13 +767,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 7. CHATS & VOICE LOUNGES WITH PRESENCE */}
+      {/* 7. CHATS & VOICE LOUNGES WITH PRESENCE (id="chats") */}
       <section
         id="chats"
         style={{
           position: "relative",
-          padding: "90px 20px",
-          minHeight: "70vh",
+          padding: "clamp(100px, 14vh, 180px) 24px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -655,7 +780,7 @@ export default function Home() {
           zIndex: 10,
         }}
       >
-        <div style={{ textAlign: "center", maxWidth: 680, marginBottom: 40 }}>
+        <div style={{ textAlign: "center", maxWidth: 680, marginBottom: "clamp(40px, 5vw, 56px)" }}>
           <div
             style={{
               display: "inline-flex",
@@ -678,7 +803,7 @@ export default function Home() {
           <h2
             style={{
               fontFamily: "var(--font-dyna-puff)",
-              fontSize: "clamp(2rem, 3.8vw, 3rem)",
+              fontSize: "clamp(2rem, 3.8vw, 3.2rem)",
               margin: "0 0 12px 0",
               color: "#FFF",
             }}
@@ -700,21 +825,21 @@ export default function Home() {
         {/* Demo Chat Box */}
         <div
           style={{
-            width: "min(92vw, 500px)",
-            borderRadius: 26,
-            padding: 22,
+            width: "min(92vw, 520px)",
+            borderRadius: 28,
+            padding: 24,
             background: "rgba(18, 20, 24, 0.82)",
             backdropFilter: "blur(24px)",
             border: "1px solid rgba(255, 255, 255, 0.12)",
             boxShadow: "0 20px 48px rgba(0,0,0,0.7)",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div
                 style={{
-                  width: 42,
-                  height: 42,
+                  width: 44,
+                  height: 44,
                   borderRadius: "50%",
                   overflow: "hidden",
                   border: "2px solid #FF6A4D",
@@ -752,8 +877,8 @@ export default function Home() {
 
           <div
             style={{
-              padding: "14px 18px",
-              borderRadius: 18,
+              padding: "16px 20px",
+              borderRadius: 20,
               background: "rgba(230, 83, 60, 0.18)",
               border: "1px solid rgba(255, 106, 77, 0.3)",
               fontFamily: "var(--font-dyna-puff)",
@@ -767,12 +892,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 8. PROFILE & IDENTITY */}
+      {/* 8. PROFILE & IDENTITY (id="profile") */}
       <section
         id="profile"
         style={{
           position: "relative",
-          padding: "80px 20px 160px 20px",
+          padding: "clamp(90px, 14vh, 160px) 24px clamp(140px, 18vh, 220px) 24px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -783,9 +908,9 @@ export default function Home() {
         <div
           style={{
             textAlign: "center",
-            maxWidth: 520,
-            padding: 36,
-            borderRadius: 30,
+            maxWidth: 540,
+            padding: "clamp(32px, 5vw, 44px)",
+            borderRadius: 32,
             background: "rgba(18, 20, 24, 0.75)",
             backdropFilter: "blur(24px)",
             border: "1px solid rgba(255, 255, 255, 0.1)",
@@ -794,8 +919,8 @@ export default function Home() {
         >
           <div
             style={{
-              width: 88,
-              height: 88,
+              width: 92,
+              height: 92,
               borderRadius: "50%",
               margin: "0 auto 18px auto",
               overflow: "hidden",
@@ -813,7 +938,7 @@ export default function Home() {
           <h3
             style={{
               fontFamily: "var(--font-dyna-puff)",
-              fontSize: 24,
+              fontSize: 26,
               margin: "0 0 6px 0",
               color: "#FFF",
             }}
@@ -846,8 +971,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Floating Liquid Navigation Dock */}
-      <LiquidDock />
+      {/* 7. COMUNIDAD ACTIVA (Inspirado en Kyubi) */}
+      <CommunitySection />
+
+      {/* FOOTER INSTITUCIONAL PANDLY INC. */}
+      <Footer />
     </main>
   );
 }
