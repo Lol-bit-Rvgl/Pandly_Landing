@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { Sparkles, Home, Gamepad2, Compass, Film, Headphones, User, Download } from "lucide-react";
+import { Sparkles, Home, Gamepad2, Compass, Film, Headphones, User } from "lucide-react";
 import { solveSpring, SPRING_PRESETS, kineticScrollTo } from "../hooks/useLiquidEngine";
 
 export interface NavDestination {
@@ -362,61 +362,28 @@ export function TopProgressHeader() {
           })}
         </div>
 
-        {/* Right actions: live pulse + beta button */}
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div
+        {/* Right action: Live presence pulse */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            fontSize: 11,
+            fontFamily: "var(--font-dyna-puff)",
+            color: "#A9B0BC",
+            userSelect: "none",
+          }}
+        >
+          <span
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              fontSize: 11,
-              fontFamily: "var(--font-dyna-puff)",
-              color: "#A9B0BC",
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              backgroundColor: "#06D6A0",
+              boxShadow: "0 0 8px #06D6A0",
             }}
-          >
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                backgroundColor: "#06D6A0",
-                boxShadow: "0 0 8px #06D6A0",
-              }}
-            />
-            <span style={{ display: "inline-block" }}>{onlineMembers.toLocaleString()} en vivo</span>
-          </div>
-
-          <button
-            onClick={() => {
-              const el = document.getElementById("download");
-              if (el) {
-                el.scrollIntoView({ behavior: "smooth" });
-              } else {
-                handleNavClick(3, "feed");
-              }
-            }}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 7,
-              padding: "7px 18px",
-              borderRadius: 999,
-              background: "linear-gradient(135deg, #FF6A4D 0%, #E6533C 100%)",
-              border: "none",
-              color: "#FFF",
-              fontFamily: "var(--font-dyna-puff)",
-              fontSize: 12,
-              fontWeight: 600,
-              cursor: "pointer",
-              boxShadow: "0 4px 14px rgba(230, 83, 60, 0.4)",
-              transition: "transform 0.15s ease",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.04)")}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1.0)")}
-          >
-            <Download size={13} />
-            <span>Descargar APK</span>
-          </button>
+          />
+          <span style={{ display: "inline-block" }}>{onlineMembers.toLocaleString()} en vivo</span>
         </div>
       </div>
 

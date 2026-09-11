@@ -6,6 +6,7 @@ import { TopProgressHeader } from "../components/TopProgressHeader";
 import { HeroSpace } from "../components/HeroSpace";
 import { FeedShowcase } from "../components/FeedShowcase";
 import { ReactionPicker } from "../components/ReactionPicker";
+import { PhysicsInspector } from "../components/PhysicsInspector";
 import { CommunitySection } from "../components/CommunitySection";
 import { DownloadBanner } from "../components/DownloadBanner";
 import { Footer } from "../components/Footer";
@@ -37,6 +38,9 @@ export default function Home() {
 
       {/* Persistent Zero-Reflow Top Progress Header */}
       <TopProgressHeader />
+
+      {/* Real-Time Engine Vitals / FPS HUD */}
+      <PhysicsInspector />
 
       {/* 1. HERO SECTION (id="home") */}
       <HeroSpace />

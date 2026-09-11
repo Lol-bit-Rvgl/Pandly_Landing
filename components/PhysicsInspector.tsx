@@ -11,7 +11,7 @@ import { ChevronDown, ChevronUp, Terminal, X } from "lucide-react";
  * and adaptive color compositing.
  * Repositioned to bottom-left to prevent header collision and hidden by default in production.
  */
-export function PhysicsInspector({ forceVisible = false }: { forceVisible?: boolean }) {
+export function PhysicsInspector({ forceVisible = true }: { forceVisible?: boolean }) {
   const telemetry = useLiquidTelemetry();
   const [isVisible, setIsVisible] = useState(forceVisible);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -33,9 +33,9 @@ export function PhysicsInspector({ forceVisible = false }: { forceVisible?: bool
       aria-label="Pandly Engine Vitals"
       style={{
         position: "fixed",
-        bottom: 24,
-        left: 24,
-        zIndex: 90,
+        top: 20,
+        right: 20,
+        zIndex: 100,
         fontFamily: "var(--font-dyna-puff), ui-monospace, SFMono-Regular, monospace",
         color: "#FFFFFF",
         userSelect: "none",
