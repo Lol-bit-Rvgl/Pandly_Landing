@@ -6,7 +6,6 @@ import { TopProgressHeader } from "../components/TopProgressHeader";
 import { HeroSpace } from "../components/HeroSpace";
 import { FeedShowcase } from "../components/FeedShowcase";
 import { ReactionPicker } from "../components/ReactionPicker";
-import { PhysicsInspector } from "../components/PhysicsInspector";
 import { CommunitySection } from "../components/CommunitySection";
 import { DownloadBanner } from "../components/DownloadBanner";
 import { Footer } from "../components/Footer";
@@ -38,9 +37,6 @@ export default function Home() {
 
       {/* Persistent Zero-Reflow Top Progress Header */}
       <TopProgressHeader />
-
-      {/* Optional Minimalist Easter Egg HUD */}
-      <PhysicsInspector />
 
       {/* 1. HERO SECTION (id="home") */}
       <HeroSpace />
@@ -953,7 +949,7 @@ export default function Home() {
         id="profile"
         style={{
           position: "relative",
-          padding: "clamp(90px, 14vh, 160px) 24px clamp(140px, 18vh, 220px) 24px",
+          padding: "clamp(80px, 12vh, 140px) 24px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

@@ -1,27 +1,41 @@
-﻿"use client";
+"use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLiquidTelemetry } from "../hooks/useLiquidEngine";
-import { ChevronDown, ChevronUp, Terminal } from "lucide-react";
+import { ChevronDown, ChevronUp, Terminal, X } from "lucide-react";
 
 /**
  * PhysicsInspector
  * Collapsible real-time telemetry HUD displaying engine vital metrics:
  * framerate, frame delta, surface normal N, refraction offset R, Fresnel factor F,
  * and adaptive color compositing.
+ * Repositioned to bottom-left to prevent header collision and hidden by default in production.
  */
-export function PhysicsInspector() {
+export function PhysicsInspector({ forceVisible = false }: { forceVisible?: boolean }) {
   const telemetry = useLiquidTelemetry();
+  const [isVisible, setIsVisible] = useState(forceVisible);
   const [isExpanded, setIsExpanded] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.altKey && e.shiftKey && (e.key === "P" || e.key === "p")) {
+        setIsVisible((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  if (!isVisible) return null;
 
   return (
     <aside
       aria-label="Pandly Engine Vitals"
       style={{
         position: "fixed",
-        top: 20,
-        right: 20,
-        zIndex: 100,
+        bottom: 24,
+        left: 24,
+        zIndex: 90,
         fontFamily: "var(--font-dyna-puff), ui-monospace, SFMono-Regular, monospace",
         color: "#FFFFFF",
         userSelect: "none",
@@ -115,23 +129,47 @@ export function PhysicsInspector() {
               </div>
             </div>
 
-            <button
-              onClick={() => setIsExpanded(false)}
-              style={{
-                background: "rgba(255, 255, 255, 0.06)",
-                border: "none",
-                borderRadius: "50%",
-                width: 24,
-                height: 24,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#A9B0BC",
-                cursor: "pointer",
-              }}
-            >
-              <ChevronUp size={14} />
-            </button>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <button
+                onClick={() => setIsExpanded(false)}
+                title="Colapsar panel"
+                aria-label="Colapsar"
+                style={{
+                  background: "rgba(255, 255, 255, 0.06)",
+                  border: "none",
+                  borderRadius: "50%",
+                  width: 24,
+                  height: 24,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#A9B0BC",
+                  cursor: "pointer",
+                }}
+              >
+                <ChevronUp size={14} />
+              </button>
+
+              <button
+                onClick={() => setIsVisible(false)}
+                title="Cerrar telemetría (Alt+Shift+P)"
+                aria-label="Cerrar telemetría"
+                style={{
+                  background: "rgba(255, 255, 255, 0.06)",
+                  border: "none",
+                  borderRadius: "50%",
+                  width: 24,
+                  height: 24,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#A9B0BC",
+                  cursor: "pointer",
+                }}
+              >
+                <X size={13} />
+              </button>
+            </div>
           </div>
 
           <div
