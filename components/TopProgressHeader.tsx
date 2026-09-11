@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { Sparkles, Home, Gamepad2, Compass, Film, Headphones, User } from "lucide-react";
+import { Sparkles, Home, Gamepad2, Compass, Film, Headphones, User, Download } from "lucide-react";
 import { solveSpring, SPRING_PRESETS, kineticScrollTo } from "../hooks/useLiquidEngine";
 
 export interface NavDestination {
@@ -33,6 +33,22 @@ export function TopProgressHeader() {
   const [indicatorX, setIndicatorX] = useState(0);
   const [indicatorScale, setIndicatorScale] = useState(1);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [onlineMembers, setOnlineMembers] = useState<number>(147);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/discord")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (active && data && typeof data.onlineMembers === "number") {
+          setOnlineMembers(data.onlineMembers);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const springPosRef = useRef({ position: 0, velocity: 0, target: 0 });
   const springScaleRef = useRef({ position: 1, velocity: 0, target: 1 });
@@ -367,16 +383,23 @@ export function TopProgressHeader() {
                 boxShadow: "0 0 8px #06D6A0",
               }}
             />
-            <span style={{ display: "inline-block" }}>2,480 live</span>
+            <span style={{ display: "inline-block" }}>{onlineMembers.toLocaleString()} en vivo</span>
           </div>
 
           <button
-            onClick={() => handleNavClick(3, "feed")}
+            onClick={() => {
+              const el = document.getElementById("download");
+              if (el) {
+                el.scrollIntoView({ behavior: "smooth" });
+              } else {
+                handleNavClick(3, "feed");
+              }
+            }}
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 6,
-              padding: "7px 16px",
+              gap: 7,
+              padding: "7px 18px",
               borderRadius: 999,
               background: "linear-gradient(135deg, #FF6A4D 0%, #E6533C 100%)",
               border: "none",
@@ -391,8 +414,8 @@ export function TopProgressHeader() {
             onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.04)")}
             onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1.0)")}
           >
-            <Sparkles size={13} />
-            <span>Beta</span>
+            <Download size={13} />
+            <span>Descargar APK</span>
           </button>
         </div>
       </div>

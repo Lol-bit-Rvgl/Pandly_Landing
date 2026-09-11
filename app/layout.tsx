@@ -25,11 +25,11 @@ const lilitaOne = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://pandly.app"),
-  title: "Pandly — Tu espacio para rolear, conectar y vivir la pantalla juntos",
+  title: "Pandly — Donde tu identidad se vuelve real",
   description:
     "Salas de cine sincronizadas, chats de voz interactivos y círculos donde tu identidad cobra vida.",
   openGraph: {
-    title: "Pandly — Tu espacio para rolear y conectar",
+    title: "Pandly — Donde tu identidad se vuelve real",
     description: "Salas de cine sincronizadas, chats de voz interactivos y círculos.",
     images: ["/assets/logo/PANDLY_LOGO_PERFECT_FOR_PRODUCTION.png"],
   },

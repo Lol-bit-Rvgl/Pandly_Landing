@@ -8,6 +8,7 @@ import { FeedShowcase } from "../components/FeedShowcase";
 import { ReactionPicker } from "../components/ReactionPicker";
 import { PhysicsInspector } from "../components/PhysicsInspector";
 import { CommunitySection } from "../components/CommunitySection";
+import { DownloadBanner } from "../components/DownloadBanner";
 import { Footer } from "../components/Footer";
 import {
   Sparkles,
@@ -190,7 +191,7 @@ export default function Home() {
                   lineHeight: 1.2,
                 }}
               >
-                🎭 Roleplay Rooms & Espacios Vivos
+                Roleplay Rooms & Espacios Vivos
               </h3>
 
               <p
@@ -219,37 +220,92 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Contenedor Mockup App / Screenshot Receptacle */}
             <div
+              className="pandly-spotlight-mockup"
               style={{
                 position: "relative",
-                borderRadius: 24,
+                width: "100%",
+                maxWidth: 480,
+                minHeight: 240,
+                borderRadius: 26,
                 overflow: "hidden",
-                border: "1px solid rgba(255, 255, 255, 0.12)",
-                background: "rgba(10, 11, 14, 0.7)",
-                padding: "24px 20px",
+                border: "1px solid rgba(255, 255, 255, 0.14)",
+                background: "linear-gradient(145deg, rgba(20, 23, 29, 0.9) 0%, rgba(10, 11, 14, 0.96) 100%)",
+                boxShadow: "0 24px 54px -12px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.06) inset, 0 0 40px -10px rgba(255, 106, 77, 0.22)",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                minHeight: 220,
+                padding: "28px 22px",
+                transition: "border-color 0.25s ease, box-shadow 0.25s ease",
               }}
             >
-              <img
-                src="/assets/images/Panda_Head.png"
-                alt="Panda Avatar"
+              {/* [MOCKUP SLOT: Inserte captura de pantalla de la app en src="/assets/..." ] */}
+              <div
                 style={{
-                  width: 88,
-                  height: 88,
-                  objectFit: "contain",
-                  filter: "drop-shadow(0 10px 24px rgba(230, 83, 60, 0.5))",
-                  marginBottom: 12,
+                  position: "relative",
+                  zIndex: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textAlign: "center",
                 }}
-              />
-              <div style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 14, color: "#FFF" }}>
-                Sala: Academia Estelar #1
+              >
+                <img
+                  src="/assets/images/Panda_Head.png"
+                  alt="Panda Avatar"
+                  style={{
+                    width: 86,
+                    height: 86,
+                    objectFit: "contain",
+                    filter: "drop-shadow(0 10px 24px rgba(230, 83, 60, 0.5))",
+                    marginBottom: 12,
+                  }}
+                />
+                <div style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 15, color: "#FFF", fontWeight: 600 }}>
+                  Sala: Academia Estelar #1
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-lilita-one)",
+                    fontSize: 12,
+                    color: "#06D6A0",
+                    marginTop: 5,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                  }}
+                >
+                  <span
+                    style={{
+                      width: 7,
+                      height: 7,
+                      borderRadius: "50%",
+                      backgroundColor: "#06D6A0",
+                      boxShadow: "0 0 8px #06D6A0",
+                    }}
+                  />
+                  <span>14 roleplayers activos en vivo</span>
+                </div>
               </div>
-              <div style={{ fontFamily: "var(--font-lilita-one)", fontSize: 12, color: "#06D6A0", marginTop: 4 }}>
-                ● 14 roleplayers activos en vivo
+
+              {/* Tag sutil de slot para captura de la app */}
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 12,
+                  right: 16,
+                  fontSize: 10,
+                  fontFamily: "var(--font-lilita-one)",
+                  color: "rgba(255, 255, 255, 0.3)",
+                  letterSpacing: "0.06em",
+                  textTransform: "uppercase",
+                  pointerEvents: "none",
+                }}
+              >
+                APP PREVIEW SLOT
               </div>
             </div>
           </div>
@@ -301,7 +357,7 @@ export default function Home() {
               </div>
 
               <h3 style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 21, margin: "0 0 12px 0", color: "#FFF" }}>
-                🍿 Salas de Cine Compartidas
+                Salas de Cine Compartidas
               </h3>
 
               <p style={{ fontFamily: "var(--font-lilita-one)", fontSize: 14, color: "#A9B0BC", lineHeight: 1.6, margin: 0 }}>
@@ -347,7 +403,7 @@ export default function Home() {
               </div>
 
               <h3 style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 21, margin: "0 0 12px 0", color: "#FFF" }}>
-                🎙️ Voice Lounges con Audio Espacial
+                Voice Lounges con Audio Espacial
               </h3>
 
               <p style={{ fontFamily: "var(--font-lilita-one)", fontSize: 14, color: "#A9B0BC", lineHeight: 1.6, margin: 0 }}>
@@ -403,7 +459,7 @@ export default function Home() {
               </div>
 
               <h3 style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 21, margin: "0 0 12px 0", color: "#FFF" }}>
-                ⭕ Círculos & Comunidades
+                Círculos & Comunidades
               </h3>
 
               <p style={{ fontFamily: "var(--font-lilita-one)", fontSize: 14, color: "#A9B0BC", lineHeight: 1.6, margin: 0 }}>
@@ -449,7 +505,7 @@ export default function Home() {
               </div>
 
               <h3 style={{ fontFamily: "var(--font-dyna-puff)", fontSize: 21, margin: "0 0 12px 0", color: "#FFF" }}>
-                ✨ 523 Living Stickers Táctiles
+                523 Living Stickers Táctiles
               </h3>
 
               <p style={{ fontFamily: "var(--font-lilita-one)", fontSize: 14, color: "#A9B0BC", lineHeight: 1.6, margin: 0 }}>
@@ -544,21 +600,21 @@ export default function Home() {
               members: "14.2k roleplayers activos",
               desc: "Salas de rol de fantasía, cyberpunk y anime con escenarios interactivos y música ambiental.",
               image: "/assets/Post_Mockups/gato_estrella.jpg",
-              tag: "SALA EN VIVO 🎭",
+              tag: "SALA EN VIVO",
             },
             {
               title: "#AnimeCinemaClub",
               members: "28.9k espectadores",
               desc: "Watch parties todos los viernes y fines de semana con chat interactivo y palomitas virtuales.",
               image: "/assets/Post_Mockups/miss_head.jpg",
-              tag: "CINE NOCTURNO 🍿",
+              tag: "CINE NOCTURNO",
             },
             {
               title: "#LivingStickersLab",
               members: "11.5k creadores",
               desc: "Diseña, comparte y colecciona stickers personalizados para usar en chats y reacciones.",
               image: "/assets/Post_Mockups/rabbid_meme_2.jpg",
-              tag: "CREATIVO ✨",
+              tag: "CREATIVO",
             },
           ].map((circle, idx) => (
             <div
@@ -971,7 +1027,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 7. COMUNIDAD ACTIVA (Inspirado en Kyubi) */}
+      {/* 9. BANNER DE DESCARGA OFICIAL DE LA APP (id="download") */}
+      <DownloadBanner />
+
+      {/* 10. COMUNIDAD ACTIVA (Inspirado en Kyubi) */}
       <CommunitySection />
 
       {/* FOOTER INSTITUCIONAL PANDLY INC. */}

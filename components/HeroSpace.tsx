@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Sparkles, ArrowRight, Film, Flame } from "lucide-react";
+import { Sparkles, ArrowRight, Film, Flame, Download } from "lucide-react";
 import { useLiquidEngine, solveSpring, SPRING_PRESETS, kineticScrollTo } from "../hooks/useLiquidEngine";
 
 /**
@@ -39,6 +39,22 @@ export function HeroSpace() {
   const lensInertiaRef = useRef({ x: 0, y: 0, vx: 0, vy: 0 });
   const [ctaScale, setCtaScale] = useState(1);
   const ctaSpringRef = useRef({ position: 1, velocity: 0, target: 1 });
+  const [onlineMembers, setOnlineMembers] = useState<number>(147);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/discord")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (active && data && typeof data.onlineMembers === "number") {
+          setOnlineMembers(data.onlineMembers);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -291,7 +307,12 @@ export function HeroSpace() {
     ctaSpringRef.current.velocity = -3.2;
     ctaSpringRef.current.target = 1.0;
 
-    kineticScrollTo("features", 70);
+    const downloadSection = document.getElementById("download");
+    if (downloadSection) {
+      kineticScrollTo("download", 70);
+    } else {
+      kineticScrollTo("features", 70);
+    }
   };
 
   return (
@@ -481,7 +502,7 @@ export function HeroSpace() {
             letterSpacing: "0.01em",
           }}
         >
-          2,480 en Watch Parties & Rol en Vivo
+          {onlineMembers.toLocaleString()} usuarios conectados en este momento
         </span>
       </aside>
 
@@ -540,7 +561,7 @@ export function HeroSpace() {
             letterSpacing: "-0.02em",
           }}
         >
-          Tu espacio para rolear, conectar <br />
+          Donde tu identidad <br />
           <span
             style={{
               background: "linear-gradient(135deg, #FFFFFF 0%, #FF6A4D 50%, #E6533C 100%)",
@@ -548,7 +569,7 @@ export function HeroSpace() {
               WebkitTextFillColor: "transparent",
             }}
           >
-            y vivir la pantalla juntos.
+            se vuelve real.
           </span>
         </h1>
 
@@ -558,9 +579,9 @@ export function HeroSpace() {
             fontFamily: "var(--font-lilita-one), sans-serif",
             fontSize: "clamp(1.05rem, 2.2vw, 1.35rem)",
             lineHeight: 1.6,
-            color: "#A9B0BC",
+            color: "#E2E8F0",
             maxWidth: 680,
-            margin: "0 auto 40px auto",
+            margin: "clamp(24px, 4vh, 40px) auto 44px auto",
             textShadow: "0 2px 8px rgba(0,0,0,0.8)",
           }}
         >
@@ -582,8 +603,8 @@ export function HeroSpace() {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 10,
-              padding: "16px 36px",
+              gap: 12,
+              padding: "18px 42px",
               borderRadius: 999,
               background: "linear-gradient(135deg, #FF6A4D 0%, #E6533C 100%)",
               color: "#FFFFFF",
@@ -593,24 +614,24 @@ export function HeroSpace() {
               border: "none",
               cursor: "pointer",
               boxShadow: `
-                0 12px 36px -6px rgba(230, 83, 60, 0.65),
+                0 14px 40px -6px rgba(230, 83, 60, 0.7),
                 0 0 0 1px rgba(255, 255, 255, 0.3) inset
               `,
               transform: `scale(${ctaScale})`,
-              transition: "box-shadow 0.2s ease",
+              transition: "box-shadow 0.2s ease, transform 0.15s ease",
               outline: "none",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.boxShadow =
-                "0 16px 44px -4px rgba(255, 106, 77, 0.8), 0 0 0 2px rgba(255, 255, 255, 0.4) inset";
+                "0 18px 48px -4px rgba(255, 106, 77, 0.85), 0 0 0 2px rgba(255, 255, 255, 0.45) inset";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.boxShadow =
-                "0 12px 36px -6px rgba(230, 83, 60, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.3) inset";
+                "0 14px 40px -6px rgba(230, 83, 60, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.3) inset";
             }}
           >
-            <Sparkles size={20} />
-            <span>Unirse a la Beta • Explorar Pandly</span>
+            <Download size={20} />
+            <span>Descargar APK</span>
             <ArrowRight size={18} />
           </button>
 
